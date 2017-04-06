@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ex1
 {
-    public class BFS<T> : Searcher<T>
+    public class BFS<T> : PrioritySearcher<T>
     {
         private HashSet<State<T>> closed = new HashSet<State<T>>();
         public override Solution<T> search(ISearchable<T> isearchable)
@@ -45,19 +45,19 @@ namespace ex1
               return backTrace(isearchable);
         }
 
-        private Solution<T> backTrace(ISearchable<T> isearchable)
-        {
-            Solution<T> solution = new Solution<T>();
-            State<T> state = isearchable.getGoalState();
-            while (!state.Equals(isearchable.getInitialState()))
-            {
-                solution.add(state);
-                state = state.CameFrom;
-            }
-            //add the initial state
-            solution.add(state);
-            return solution;
-        }
+        //private Solution<T> backTrace(ISearchable<T> isearchable)
+        //{
+        //    Solution<T> solution = new Solution<T>();
+        //    State<T> state = isearchable.getGoalState();
+        //    while (!state.Equals(isearchable.getInitialState()))
+        //    {
+        //        solution.add(state);
+        //        state = state.CameFrom;
+        //    }
+        //    //add the initial state
+        //    solution.add(state);
+        //    return solution;
+        //}
   }
         
 }
