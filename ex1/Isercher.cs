@@ -9,7 +9,10 @@ namespace ex1
     public interface Isercher<T>
     {
         // the search method
-        Solution<T> search(ISearchable<T> isearchable);
+        Solution<T> search(ISearchable<T> isearchable);/// <summary>
+        /// /////////////
+        /// </summary>
+        /// <returns></returns>
         // get how many nodes were evaluated by the algorithm
         int getNumberOfNodesEvaluated();
     }
