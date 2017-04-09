@@ -20,17 +20,16 @@ namespace ex1
         }
         public abstract Solution<T> search(ISearchable<T> isearchable);
 
-        public Solution<T> backTrace(ISearchable<T> isearchable)
+        public Solution<T> backTrace(State<T> init, State<T> goal)
         {
             Solution<T> solution = new Solution<T>();
-            State<T> state = isearchable.getGoalState();
-            while (!state.Equals(isearchable.getInitialState()))
+            while (!goal.Equals(init))
             {
-                solution.add(state);
-                state = state.CameFrom;
+                solution.add(goal);
+                goal = goal.CameFrom;
             }
             //add the initial state
-            solution.add(state);
+            solution.add(goal);
             return solution;
         }
 

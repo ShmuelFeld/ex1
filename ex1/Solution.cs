@@ -14,10 +14,14 @@ namespace ex1
             backTrace = new Stack<State<T>>();
         }
         // a property of backTrace
-       // public Stack<State<T>> BackTrace { get; }
+        // public Stack<State<T>> BackTrace { get; }
         public void add(State<T> s)
         {
             backTrace.Push(s);
+        }
+        public int numOfStates()
+        {
+            return backTrace.Count();
         }
     }
 }

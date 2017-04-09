@@ -7,13 +7,13 @@ using Priority_Queue;
 
 namespace ex1
 {
-    public abstract class PrioritySearcher<T>: Searcher<T>
+    public abstract class PrioritySearcher<T> : Searcher<T>
     {
-        protected Priority_Queue.SimplePriorityQueue<State<T>> open; 
+        protected Priority_Queue.SimplePriorityQueue<State<T>> open;
         public PrioritySearcher()
         {
             open = new Priority_Queue.SimplePriorityQueue<State<T>>();
-            }
+        }
         protected State<T> popOpenList()
         {
             evaluatedNodes++;
@@ -33,6 +33,7 @@ namespace ex1
         public void addToOpenList(State<T> s)
         {
             open.Enqueue(s, (float)s.CostOfState);
-        }
+        }
+
     }
 }

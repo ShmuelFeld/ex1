@@ -12,18 +12,18 @@ namespace ex1
         public override Solution<T> search(ISearchable<T> isearchable)
         {
             addToOpenList(isearchable.getInitialState()); // inherited from Searcher
-           
+
             while (OpenListSize > 0)
             {
                 State<T> n = popOpenList(); // inherited from Searcher, removes the best state
                 closed.Add(n);
                 if (n.Equals(isearchable.getGoalState()))
-                    return backTrace(isearchable); // private method, back traces through the parents
-                                        // calling the delegated method, returns a list of states with n as a parent
+                    return backTrace(isearchable.getInitialState(), n); // private method, back traces through the parents
+                                                   // calling the delegated method, returns a list of states with n as a parent
                 Dictionary<State<T>, double> succerssors = isearchable.getAllPossibleStates(n);
                 foreach (KeyValuePair<State<T>, double> s in succerssors)
                 {
-                    if (!closed.Contains(s.Key) && !open.Contains(s.Key))
+                    if (!(closed.Contains(s.Key)) && !(open.Contains(s.Key)))
                     {
                         s.Key.CameFrom = n;
                         //s.CameFrom = n; // already done by getSuccessors
@@ -39,10 +39,10 @@ namespace ex1
                             s.Key.CostOfState = s.Value + n.CostOfState;
                             open.UpdatePriority(s.Key, (float)(s.Key.CostOfState));
                         }
-                    }           
+                    }
                 }
             }
-              return backTrace(isearchable);
+            return null;
         }
 
         //private Solution<T> backTrace(ISearchable<T> isearchable)
@@ -58,6 +58,6 @@ namespace ex1
         //    solution.add(state);
         //    return solution;
         //}
-  }
-        
+    }
+
 }
