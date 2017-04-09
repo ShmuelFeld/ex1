@@ -3,37 +3,35 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Priority_Queue;
 
 namespace ex1
 {
-    public abstract class Searcher<T>: Isercher<T>
+    public abstract class Searcher<T> : Isercher<T>
     {
-        protected Priority_Queue.SimplePriorityQueue<State<T>> open; 
-        private int evaluatedNodes;
+        protected int evaluatedNodes;
         public Searcher()
         {
-            open = new Priority_Queue.SimplePriorityQueue<State<T>>();
             evaluatedNodes = 0;
         }
-        protected State<T> popOpenList()
-        {
-            evaluatedNodes++;
-            return open.Dequeue();
-        }
-        // a property of openList
-        public int OpenListSize
-        { // it is a read-only property :)
-            get { return open.Count; }
-        }
-        // ISearcher’s methods:
+        //ISearcher’s methods:
         public virtual int getNumberOfNodesEvaluated()
         {
             return evaluatedNodes;
         }
-        public abstract Solution<T> search(ISearchable<T> isearchable);        public void addToOpenList(State<T> s)
+        public abstract Solution<T> search(ISearchable<T> isearchable);
+
+        public Solution<T> backTrace(State<T> init, State<T> goal)
         {
-            open.Enqueue(s, (float)s.CostOfState);
-        }
+            Solution<T> solution = new Solution<T>();
+            while (!goal.Equals(init))
+            {
+                solution.add(goal);
+                goal = goal.CameFrom;
+            }
+            //add the initial state
+            solution.add(goal);
+            return solution;
+        }
+
     }
 }
