@@ -12,7 +12,6 @@ namespace ex1
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello world");
             compareSolvers();
         }
         static void compareSolvers()
@@ -25,7 +24,7 @@ namespace ex1
             Console.WriteLine(bfs.search(ism).numOfStates());
             DFS<Position> dfs = new DFS<Position>();
             Console.WriteLine(dfs.search(ism).numOfStates());
-
+           
         }
     }
 }

@@ -9,7 +9,6 @@ namespace ex1
 {
     public abstract class PrioritySearcher<T> : Searcher<T>
     {
-        int x = 1;
         protected Priority_Queue.SimplePriorityQueue<State<T>> open;
         public PrioritySearcher()
         {
