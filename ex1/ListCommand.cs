@@ -24,14 +24,12 @@ namespace ex1
         }
         private string ToJSON(List<Maze> list)
         {
-            JObject listObj = new JObject();
             JArray listArr = new JArray();
             foreach (Maze m in list)
             {
-                listArr.Add(m);
+                listArr.Add(m.Name);
             }
-            listObj["x"] = listArr;
-            return listObj.ToString();
+            return listArr.ToString();
         }
     }
 }
