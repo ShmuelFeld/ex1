@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,26 @@ namespace ex1
         public int numOfStates()
         {
             return backTrace.Count();
+        }
+        public string ToString()
+        {
+            string solution;
+            Stack<State<T>> temp = backTrace;
+            State<T> prev = temp.First();
+            //while (!temp.Any())
+            //{
+            //    State<T> cur = temp.First();
+
+            //}
+            return "solution in progress......";
+        }
+        public string ToJSON(string name)
+        {
+            JObject solveObj = new JObject();
+            solveObj["Name"] = name;
+            solveObj["solution"] = ToString();
+            solveObj["NodesEvaluated"] = numOfStates();
+            return solveObj.ToString();
         }
     }
 }

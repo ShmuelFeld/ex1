@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace ex1
 {
-    interface IClientHandler
+    interface ICommand
     {
-        void HandleClient(TcpClient client);
+        string Execute(string[] args, TcpClient client);
     }
 }
