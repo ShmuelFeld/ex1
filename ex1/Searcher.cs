@@ -20,7 +20,7 @@ namespace ex1
         }
         public abstract Solution<T> search(ISearchable<T> isearchable);
 
-        public Solution<T> backTrace(State<T> init, State<T> goal)
+        public Solution<T> backTrace(State<T> init, State<T> goal) 
         {
             Solution<T> solution = new Solution<T>();
             while (!goal.Equals(init))

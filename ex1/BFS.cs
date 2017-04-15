@@ -45,19 +45,19 @@ namespace ex1
             return null;
         }
 
-        //private Solution<T> backTrace(ISearchable<T> isearchable)
-        //{
-        //    Solution<T> solution = new Solution<T>();
-        //    State<T> state = isearchable.getGoalState();
-        //    while (!state.Equals(isearchable.getInitialState()))
-        //    {
-        //        solution.add(state);
-        //        state = state.CameFrom;
-        //    }
-        //    //add the initial state
-        //    solution.add(state);
-        //    return solution;
-        //}
-    }
-
+        private Solution<T> backTrace(ISearchable<T> isearchable)
+        {
+            Solution<T> solution = new Solution<T>();
+            State<T> state = isearchable.getGoalState();
+            while (!state.Equals(isearchable.getInitialState()))
+            {
+                solution.add(state);
+                state = state.CameFrom;
+            }
+            //add the initial state
+            solution.add(state);
+            return solution;
+        }
+  }
+        
 }
