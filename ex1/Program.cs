@@ -17,8 +17,26 @@ namespace ex1
         }
         static void compareSolvers()
         {
+            //bool i = true;
+            //Task t = new Task(()=>{
+            //    while (i)
+            //    {
+            //        Console.WriteLine("in while");
+            //    }
+            //});
+            //t.Start();
+            //Console.WriteLine("thread start");
+
+            //int l;
+            //for (l=0; l<1000000000; l++)
+            //{
+
+            //}
+            //i = false;
+            //t.Wait();
+
             DFSMazeGenerator dfsMaze = new DFSMazeGenerator();
-            Maze maze = dfsMaze.Generate(500,500);
+            Maze maze = dfsMaze.Generate(500, 500);
             Console.WriteLine(maze.ToString());
             IsearchableMaze ism = new IsearchableMaze(maze);
             BFS<Position> bfs = new BFS<Position>();
