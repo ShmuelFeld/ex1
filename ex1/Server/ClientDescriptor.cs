@@ -23,7 +23,7 @@ namespace Server
         public void startListening()
         {
             this.task = new Task(() =>{
-                Byte[] bytes = new Byte[256];
+                Byte[] bytes = new Byte[1024];
                 NetworkStream stream = this.tcp.GetStream();
                 int i;
                 while (!this.endOfCommunication)

@@ -28,13 +28,20 @@ namespace Client
             {
                 string da = Console.ReadLine();
                 bytes = System.Text.Encoding.ASCII.GetBytes(da);
+                string[] arr = da.Split(' ');
+                string commandKey = arr[0];
                 nwstream.Write(bytes, 0, bytes.Length);
                 nwstream.Flush();
                 bytes.Initialize();
                 int i;
                 i = nwstream.Read(bytes, 0, bytes.Length);
                 da = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
-                Console.WriteLine( da);
+                Console.WriteLine(da);
+                if ((da == "generate") || (da == "solve"))
+                {
+                    client = new TcpClient();
+                    nwstream = client.GetStream();
+                }
             }
         }
     }
