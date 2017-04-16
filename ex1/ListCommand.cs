@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ex1
 {
-    class ListCommand : ICommand
+    public class ListCommand : ICommand
     {
         private IModel model;
         public ListCommand(IModel model)

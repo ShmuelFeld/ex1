@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ex1
 {
-    interface IView
+    public interface IView
     {
     }
 }

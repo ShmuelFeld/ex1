@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ex1
 {
-    class Controller : IController
+    public class Controller : IController
     {
         private Dictionary<string, ICommand> commands;
         private IModel model;

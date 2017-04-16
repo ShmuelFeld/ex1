@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{62A5A2BD-D5A4-4B50-8FEF-8C25411133F2}</ProjectGuid>
+    <ProjectGuid>{4A0D159A-29AA-4C7C-B157-B9E802FBB954}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>Server</RootNamespace>
     <AssemblyName>Server</AssemblyName>
@@ -52,6 +52,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ex1\ex1.csproj">
+      <Project>{bd82cd06-9ec3-4ca6-a481-8f67a6739b7d}</Project>
+      <Name>ex1</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

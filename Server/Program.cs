@@ -18,6 +18,7 @@ namespace Server
             controller.setModel(model);
             controller.addCommand("generate", new GenerateMazeCommand(model));
             controller.addCommand("list", new ListCommand(model));
+            controller.addCommand("solve", new SolveGameCommand(model));
             ser.StartToListen();
         }
     }

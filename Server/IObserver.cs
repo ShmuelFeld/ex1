@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Server
 {
-    interface IObservable
+    public interface IObserver
     {
-        void addObserver(IObserver observer);
-        void notifyObservers(string str);
+        void newMessageArrived(string command, IObservable observable);
     }
 }

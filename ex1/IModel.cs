@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ex1
 {
-    interface IModel
+    public interface IModel
     {
         Maze generateMaze(string name, int rows, int cols);
         MazeSolution solveMaze(string name,int  algorithm);

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ex1
 {
-    class GenerateMazeCommand : ICommand
+    public class GenerateMazeCommand : ICommand
     {
         private IModel model;
         public GenerateMazeCommand(IModel model)

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ex1
 {
-    class MazeSolution : Solution<Position>
+    public class MazeSolution : Solution<Position>
     {
         public string ToJSON(string s) { return null; }
         public new string ToString()

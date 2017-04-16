@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace ex1
 {
-    enum Move {up, down, left, right}
-    class PlayCommand
+    public enum Move {up, down, left, right}
+    public class PlayCommand
     {
         private IModel model;
         public PlayCommand(IModel model)

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ex1
 {
-    class SolveGameCommand : ICommand
+    public class SolveGameCommand : ICommand
     {
         private IModel model;
         public SolveGameCommand(IModel model)

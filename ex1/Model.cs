@@ -8,16 +8,18 @@ using MazeGeneratorLib;
 
 namespace ex1
 {
-    class Model : IModel
+    public class Model : IModel
     {
         IController controller;
         //DO WE NEED BOTH?
         List<Maze> availableGames;
         Dictionary<string, Maze> mazes;
+        //private TaskPool taskPool;
 
         public Model(IController controller)
         {
             availableGames = new List<Maze>();
+            //taskPool = new TaskPool();
             mazes = new Dictionary<string, Maze>();
             this.controller = controller;
         }
@@ -33,28 +35,35 @@ namespace ex1
                 return maze;
             });
             t.Start();
+            //taskPool.addTask(t);
             return t.Result;
         }
 
         public MazeSolution solveMaze(string name, int algorithm)
         {
-            if (!mazes.ContainsKey(name))
+            Task<MazeSolution> t = new Task<MazeSolution>(() =>
             {
-                return null;
-            }
-            Maze maze = mazes[name];
-            if(algorithm == 0)
-            {
-                BFS<Position> bfs = new BFS<Position>();
-                IsearchableMaze ism = new IsearchableMaze(maze);
-                return bfs.search(ism) as MazeSolution;
-            }
-            else if (algorithm == 1)
-            {
-                DFS<Position> dfs = new DFS<Position>();
-                IsearchableMaze ism = new IsearchableMaze(maze);
-                return dfs.search(ism) as MazeSolution;
-            } else { return null; }
+                if (!mazes.ContainsKey(name))
+                {
+                    return null;
+                }
+                Maze maze = mazes[name];
+                if (algorithm == 0)
+                {
+                    BFS<Position> bfs = new BFS<Position>();
+                    IsearchableMaze ism = new IsearchableMaze(maze);
+                    return bfs.search(ism) as MazeSolution;
+                }
+                else if (algorithm == 1)
+                {
+                    DFS<Position> dfs = new DFS<Position>();
+                    IsearchableMaze ism = new IsearchableMaze(maze);
+                    return dfs.search(ism) as MazeSolution;
+                }
+                else { return null; }
+            });
+            t.Start();
+            return t.Result;
         }
 
         public Maze startGame(string name, int rows, int cols)
@@ -69,7 +78,6 @@ namespace ex1
 
         public Maze join(string name)
         {
-            //TODO SHMUEL?
             Maze maze = mazes[name];
             availableGames.Remove(maze);
             return maze;

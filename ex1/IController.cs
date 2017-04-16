@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ex1
 {
-    interface IController
+    public interface IController
     {
         void setModel(IModel model);
         void setView(IView view);

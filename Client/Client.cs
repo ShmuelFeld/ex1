@@ -5,10 +5,12 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using ex1;
+using Server;
 
 namespace Client
 {
-    class Client
+    class Client : IObserver 
     {
         private TcpClient client;
         private bool endOfCommunication;
@@ -18,8 +20,14 @@ namespace Client
             client = new TcpClient();
             client.Connect(ep);
             Console.WriteLine("I'm connected");
-            this.endOfCommunication = false;
+            this.endOfCommunication = false; 
         }
+
+        public void newMessageArrived(string command, IObservable observable)
+        {
+            throw new NotImplementedException();
+        }
+
         public void SendSomeMessage(string str)
         {
             Byte[] bytes = new Byte[1024];

@@ -51,5 +51,15 @@
   <ItemGroup>
     <Folder Include="Properties\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ex1\ex1.csproj">
+      <Project>{bd82cd06-9ec3-4ca6-a481-8f67a6739b7d}</Project>
+      <Name>ex1</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Server\Server.csproj">
+      <Project>{4a0d159a-29aa-4c7c-b157-b9e802fbb954}</Project>
+      <Name>Server</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
