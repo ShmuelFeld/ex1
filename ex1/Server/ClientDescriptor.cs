@@ -31,11 +31,11 @@ namespace Server
                     if ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
                     {
                         string data = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
-                        Console.WriteLine("Received: {0}", data);
+                        Console.WriteLine("Received: {0}", data);//server prints to screen
                         stream.Flush();
-                        bytes = System.Text.Encoding.ASCII.GetBytes(data);
-                        stream.Write(bytes, 0, bytes.Length);
-                        stream.Flush();
+                        //bytes = System.Text.Encoding.ASCII.GetBytes(data);
+                        //stream.Write(bytes, 0, bytes.Length);
+                        //stream.Flush();
                         notifyObservers(data);
                     }
                 }
@@ -59,7 +59,7 @@ namespace Server
         {
             this.observers.Add(observer);
         }
-
+         
         public void notifyObservers(string str)
         {
             foreach (IObserver item in this.observers)

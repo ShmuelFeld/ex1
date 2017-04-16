@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,7 +21,7 @@ namespace ex1
         {
             commands.Add(s, command);
         }
-        public string ExecuteCommand(string commandLine, TcpClient client)
+        public string ExecuteCommand(string commandLine)
         {
             string[] arr = commandLine.Split(' ');
             string commandKey = arr[0];
@@ -32,6 +31,5 @@ namespace ex1
             ICommand command = commands[commandKey];
             return command.Execute(args, null);
         }
-    }
-
+    }
 }

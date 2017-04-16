@@ -21,8 +21,8 @@ namespace ex1
             string name = args[0];
             int algorithm = int.Parse(args[1]);
             Solution<Position> solution = model.solveMaze(name, algorithm);
-            Solution<Position> mazeSol = solution;
-            return mazeSol.ToJSON(name);
+            //return solution.ToJSON();
+            return "hello";
         }
     }
 }

@@ -10,7 +10,7 @@ namespace ex1
     interface IModel
     {
         Maze generateMaze(string name, int rows, int cols);
-        MazeSolution solveMaze(string name,int  algorithm);
+        Solution<Position> solveMaze(string name,int  algorithm);
         Maze startGame(string name, int rows, int cols);
         List<Maze> getListOfAvailableGames();
         Maze join(string name);

@@ -24,19 +24,15 @@ namespace ex1
 
         public Maze generateMaze(string name, int rows, int cols)
         {
-            Task<Maze> t = new Task<Maze>(() => {
-                DFSMazeGenerator dfsMaze = new DFSMazeGenerator();
-                Maze maze = dfsMaze.Generate(rows, cols);
-                maze.Name = name;
-                mazes.Add(name, maze);
-                availableGames.Add(maze); //make the maze an available game
-                return maze;
-            });
-            t.Start();
-            return t.Result;
+            DFSMazeGenerator dfsMaze = new DFSMazeGenerator();
+            Maze maze = dfsMaze.Generate(rows, cols);
+            maze.Name = name;
+            mazes.Add(name, maze);
+            availableGames.Add(maze); //make the maze an available game
+            return maze;
         }
 
-        public MazeSolution solveMaze(string name, int algorithm)
+        public Solution<Position> solveMaze(string name, int algorithm)
         {
             if (!mazes.ContainsKey(name))
             {
@@ -47,13 +43,13 @@ namespace ex1
             {
                 BFS<Position> bfs = new BFS<Position>();
                 IsearchableMaze ism = new IsearchableMaze(maze);
-                return bfs.search(ism) as MazeSolution;
+                return bfs.search(ism);
             }
             else if (algorithm == 1)
             {
                 DFS<Position> dfs = new DFS<Position>();
                 IsearchableMaze ism = new IsearchableMaze(maze);
-                return dfs.search(ism) as MazeSolution;
+                return dfs.search(ism);
             } else { return null; }
         }
 

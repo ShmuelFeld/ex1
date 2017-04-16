@@ -9,7 +9,7 @@ namespace ex1
 {
     public class Solution<T>
     {
-        protected Stack<State<T>> backTrace;
+        private Stack<State<T>> backTrace;
         public Solution()
         {
             backTrace = new Stack<State<T>>();
@@ -24,7 +24,18 @@ namespace ex1
         {
             return backTrace.Count();
         }
-        public string ToString() { return null; }
+        public string ToString()
+        {
+            string solution;
+            Stack<State<T>> temp = backTrace;
+            State<T> prev = temp.First();
+            //while (!temp.Any())
+            //{
+            //    State<T> cur = temp.First();
+
+            //}
+            return "solution in progress......";
+        }
         public string ToJSON(string name)
         {
             JObject solveObj = new JObject();

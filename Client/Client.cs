@@ -10,7 +10,6 @@ namespace Client
 {
     class Client
     {
-        //change for commit
         private TcpClient client;
         private bool endOfCommunication;
         public Client()
@@ -23,7 +22,7 @@ namespace Client
         }
         public void SendSomeMessage(string str)
         {
-            Byte[] bytes = new Byte[256];
+            Byte[] bytes = new Byte[1024];
             NetworkStream nwstream = client.GetStream();
             while (!this.endOfCommunication)
             {
@@ -35,7 +34,7 @@ namespace Client
                 int i;
                 i = nwstream.Read(bytes, 0, bytes.Length);
                 da = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
-                Console.WriteLine("Received: {0}", da);
+                Console.WriteLine( da);
             }
         }
     }

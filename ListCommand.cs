@@ -19,6 +19,7 @@ namespace ex1
         public string Execute(string[] args, TcpClient client)
         {
             List<Maze> availableGamesList = model.getListOfAvailableGames();
+            //TODO check if it's done by itself
             return ToJSON(availableGamesList);
         }
         private string ToJSON(List<Maze> list)

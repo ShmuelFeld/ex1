@@ -8,21 +8,20 @@ using System.Threading.Tasks;
 
 namespace ex1
 {
-    class SolveGameCommand : ICommand
+    class GenerateMazeCommand : ICommand
     {
         private IModel model;
-        public SolveGameCommand(IModel model)
+        public GenerateMazeCommand(IModel model)
         {
             this.model = model;
         }
-        //TODO
         public string Execute(string[] args, TcpClient client)
         {
             string name = args[0];
-            int algorithm = int.Parse(args[1]);
-            Solution<Position> solution = model.solveMaze(name, algorithm);
-            Solution<Position> mazeSol = solution;
-            return mazeSol.ToJSON(name);
+            int rows = int.Parse(args[1]);
+            int cols = int.Parse(args[2]);
+            Maze maze = model.generateMaze(name, rows, cols);
+            return maze.ToJSON();
         }
     }
 }
