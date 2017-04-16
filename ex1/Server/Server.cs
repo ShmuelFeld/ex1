@@ -30,15 +30,11 @@ namespace Server
         }
         public void newMessageArrived(string command, IObservable observable)
         {
-            //here we suppose to send to the controller the command
-            TcpClient tcp = (observable as ClientDescriptor).getTcpClient();
+            ClientDescriptor cd = observable as ClientDescriptor;
+            TcpClient tcp = cd.getTcpClient();
             string result = controller.ExecuteCommand(command, tcp);
             Console.WriteLine(result);
-            Byte[] bytes = new Byte[1024];
-            NetworkStream stream = tcp.GetStream();
-            bytes = System.Text.Encoding.ASCII.GetBytes(result);
-            stream.Write(bytes, 0, bytes.Length);
-            stream.Flush();
+            cd.sendToClient(result);
         }
         public void StartToListen()
         {

@@ -37,6 +37,7 @@ namespace Server
                         //stream.Write(bytes, 0, bytes.Length);
                         //stream.Flush();
                         notifyObservers(data);
+
                     }
                 }
             });
@@ -66,6 +67,15 @@ namespace Server
             {
                 item.newMessageArrived(str, this);
             }
+        }
+
+        public void sendToClient(string data)
+        {
+            Byte[] bytes = new Byte[1024];
+            NetworkStream stream = tcp.GetStream();
+            bytes = System.Text.Encoding.ASCII.GetBytes(data);
+            stream.Write(bytes, 0, bytes.Length);
+            stream.Flush();
         }
     }
 }
