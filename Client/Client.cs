@@ -10,6 +10,7 @@ namespace Client
 {
     class Client
     {
+        //change for commit
         private TcpClient client;
         private bool endOfCommunication;
         public Client()
