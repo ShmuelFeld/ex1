@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
@@ -31,8 +32,9 @@ namespace Server
                     if ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
                     {
                         string data = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
-                        Console.WriteLine("Received: {0}", data);//server prints to screen
+                        Console.WriteLine("Received: {0}", data);
                         stream.Flush();
+                        
                         //bytes = System.Text.Encoding.ASCII.GetBytes(data);
                         //stream.Write(bytes, 0, bytes.Length);
                         //stream.Flush();
@@ -71,11 +73,27 @@ namespace Server
 
         public void sendToClient(string data)
         {
-            Byte[] bytes = new Byte[1024];
-            NetworkStream stream = tcp.GetStream();
-            bytes = System.Text.Encoding.ASCII.GetBytes(data);
-            stream.Write(bytes, 0, bytes.Length);
-            stream.Flush();
+            using (NetworkStream stream = tcp.GetStream())
+            using (StreamReader reader = new StreamReader(stream))
+            using (StreamWriter writer = new StreamWriter(stream))
+            {
+                while (!this.endOfCommunication)
+                {
+                    data += '\n';
+                    data += '@';
+                    writer.WriteLine(data);
+                    writer.Flush();
+                }
+            }
+            //Byte[] bytes = new Byte[1024];
+            //using (NetworkStream stream = tcp.GetStream())
+            //using (BinaryReader reader = new BinaryReader(stream))
+            //using (BinaryWriter writer = new BinaryWriter(stream))            //{
+            //    bytes = System.Text.Encoding.ASCII.GetBytes(data);
+            //    writer.Write(bytes, 0, bytes.Length);
+            //    stream.Flush() ;
+            //    writer.Flush();
+            //}
         }
     }
 }

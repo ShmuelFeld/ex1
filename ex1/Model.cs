@@ -5,15 +5,18 @@ using System.Text;
 using System.Threading.Tasks;
 using MazeLib;
 using MazeGeneratorLib;
+using System.Net.Sockets;
 
 namespace ex1
 {
     public class Model : IModel
     {
-        IController controller;
-        //DO WE NEED BOTH?
-        List<Maze> availableGames;
+        IController controller;        
         Dictionary<string, Maze> mazes;
+        Dictionary<string, Solution<Position>> BFSsoliutions;
+        Dictionary<string, Solution<Position>> DFSsoliutions;
+        Dictionary<string, TcpClient> waitingGames;
+        List<Maze> availableGames;
         //private TaskPool taskPool;
 
         public Model(IController controller)
@@ -22,54 +25,74 @@ namespace ex1
             //taskPool = new TaskPool();
             mazes = new Dictionary<string, Maze>();
             this.controller = controller;
+            BFSsoliutions = new Dictionary<string, Solution<Position>>();
+            DFSsoliutions = new Dictionary<string, Solution<Position>>();
+            waitingGames = new Dictionary<string, TcpClient>();
         }
 
         public Maze generateMaze(string name, int rows, int cols)
         {
+            if (mazes.ContainsKey(name))
+            {
+                return null;
+            }
             Task<Maze> t = new Task<Maze>(() => {
                 DFSMazeGenerator dfsMaze = new DFSMazeGenerator();
-                Maze maze = dfsMaze.Generate(rows, cols);
-                maze.Name = name;
-                mazes.Add(name, maze);
-                availableGames.Add(maze); //make the maze an available game
-                return maze;
+                Maze m = dfsMaze.Generate(rows, cols);
+                m.Name = name;
+                mazes.Add(name, m);
+                return m;
             });
             t.Start();
+            Maze maze = t.Result;
+            IsearchableMaze ism = new IsearchableMaze(maze);
+            Task BFSsolutionTask = new Task(() =>
+            {
+                BFS<Position> bfs = new BFS<Position>();
+                BFSsoliutions.Add(maze.Name, bfs.search(ism));
+            });
+            BFSsolutionTask.Start();
+            Task DFSsolutionTask = new Task(() =>
+            {
+                DFS<Position> dfs = new DFS<Position>();
+                DFSsoliutions.Add(maze.Name, dfs.search(ism));
+            });
+            DFSsolutionTask.Start();
             //taskPool.addTask(t);
-            return t.Result;
+            return maze;
         }
 
         public MazeSolution solveMaze(string name, int algorithm)
-        {
-            Task<MazeSolution> t = new Task<MazeSolution>(() =>
+        {           
+            if (!mazes.ContainsKey(name))
             {
-                if (!mazes.ContainsKey(name))
-                {
-                    return null;
-                }
-                Maze maze = mazes[name];
-                if (algorithm == 0)
-                {
-                    BFS<Position> bfs = new BFS<Position>();
-                    IsearchableMaze ism = new IsearchableMaze(maze);
-                    return bfs.search(ism) as MazeSolution;
-                }
-                else if (algorithm == 1)
-                {
-                    DFS<Position> dfs = new DFS<Position>();
-                    IsearchableMaze ism = new IsearchableMaze(maze);
-                    return dfs.search(ism) as MazeSolution;
-                }
-                else { return null; }
-            });
-            t.Start();
-            return t.Result;
+                return null;
+            }
+            //BFS
+            if (algorithm == 0)
+            {
+                return BFSsoliutions[name] as MazeSolution; //todo
+            }
+            //DFS
+            else if (algorithm == 1)
+            {
+                return DFSsoliutions[name] as MazeSolution; //todo
+            }
+            return null; 
         }
 
-        public Maze startGame(string name, int rows, int cols)
+        public Maze startGame(string name, int rows, int cols, TcpClient tcpClient)
         {
-            //??
-            throw new NotImplementedException();
+            if (mazes.ContainsKey(name))
+            {
+                return null;
+            }
+            DFSMazeGenerator dfsMaze = new DFSMazeGenerator();
+            Maze m = dfsMaze.Generate(rows, cols);
+            m.Name = name;
+            waitingGames.Add(name, tcpClient);
+            availableGames.Add(m);
+            return m;
         }
         public List<Maze> getListOfAvailableGames()
         {
@@ -78,9 +101,9 @@ namespace ex1
 
         public Maze join(string name)
         {
-            Maze maze = mazes[name];
-            availableGames.Remove(maze);
-            return maze;
+            if (!waitingGames.ContainsKey(name)) { return null; }
+            waitingGames.Remove(name);
+            return mazes[name];
         }
 
         public Move play(Move move)

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ex1
 {
-    class JoinCommand : ICommand
+    public class JoinCommand : ICommand
     {
         private IModel model;
         public JoinCommand(IModel model)
@@ -19,6 +19,10 @@ namespace ex1
         {
             string name = args[0];
             Maze joinedMaze = model.join(name);
+            if (joinedMaze == null)
+            {
+                return "maze isn't in join list";
+            }
             return joinedMaze.ToJSON();
         }
     }

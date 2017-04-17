@@ -69,6 +69,7 @@
     <Compile Include="MazeSolution.cs" />
     <Compile Include="Model.cs" />
     <Compile Include="PlayCommand.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Searcher.cs" />
     <Compile Include="DFS.cs" />
     <Compile Include="ISearchable.cs" />
