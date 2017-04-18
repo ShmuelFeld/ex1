@@ -16,7 +16,13 @@ namespace ex1
         public void setModel(IModel model) { this.model = model; }
         public Controller()
         {
+            model = new Model(this);
             commands = new Dictionary<string, ICommand>();
+            addCommand("generate", new GenerateMazeCommand(model));
+            addCommand("list", new ListCommand(model));
+            addCommand("solve", new SolveGameCommand(model));
+            addCommand("start", new StartGameCommand(model));
+            addCommand("join", new JoinCommand(model));
         }
         public void addCommand(string s, ICommand command)
         {

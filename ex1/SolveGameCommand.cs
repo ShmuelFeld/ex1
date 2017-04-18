@@ -20,9 +20,8 @@ namespace ex1
         {
             string name = args[0];
             int algorithm = int.Parse(args[1]);
-            Solution<Position> solution = model.solveMaze(name, algorithm);
-            Solution<Position> mazeSol = solution;
-            return mazeSol.ToJSON(name);
+            MazeSolution solution = model.solveMaze(name, algorithm);
+            return solution.ToJSON(name);
         }
     }
 }

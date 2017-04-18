@@ -1,4 +1,5 @@
 ﻿using MazeLib;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,9 +8,13 @@ using System.Threading.Tasks;
 
 namespace ex1
 {
-    public class MazeSolution : Solution<Position>
+    public class MazeSolution
     {
-        public string ToJSON(string s) { return null; }
+        private Stack<State<Position>> backTrace;
+        public MazeSolution(Stack<State<Position>> bt)
+        {
+            backTrace = bt;
+        }
         public new string ToString()
         {
             string solution = "";
@@ -44,6 +49,15 @@ namespace ex1
                 }
             }
             return solution;
+        }
+
+        public string ToJSON(string name)
+        {
+            JObject solveObj = new JObject();
+            solveObj["Name"] = name;
+            solveObj["solution"] = ToString();
+            solveObj["NodesEvaluated"] = backTrace.Count();
+            return solveObj.ToString();
         }
     }
 }

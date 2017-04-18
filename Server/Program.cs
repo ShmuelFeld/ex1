@@ -16,11 +16,11 @@ namespace Server
             ser.setController(controller);
             IModel model = new Model(controller);
             controller.setModel(model);
-            controller.addCommand("generate", new GenerateMazeCommand(model));
-            controller.addCommand("list", new ListCommand(model));
-            controller.addCommand("solve", new SolveGameCommand(model));
-            controller.addCommand("start", new StartGameCommand(model));
-            controller.addCommand("join", new JoinCommand(model));
+            //controller.addCommand("generate", new GenerateMazeCommand(model));
+            //controller.addCommand("list", new ListCommand(model));
+            //controller.addCommand("solve", new SolveGameCommand(model));
+            //controller.addCommand("start", new StartGameCommand(model));
+            //controller.addCommand("join", new JoinCommand(model));
             ser.StartToListen();
         }
     }

@@ -24,14 +24,15 @@ namespace ex1
         {
             return backTrace.Count();
         }
-        public string ToString() { return null; }
-        public string ToJSON(string name)
-        {
-            JObject solveObj = new JObject();
-            solveObj["Name"] = name;
-            solveObj["solution"] = ToString();
-            solveObj["NodesEvaluated"] = numOfStates();
-            return solveObj.ToString();
-        }
+        //public string ToString() { return null; }
+        //public string ToJSON(string name)
+        //{
+        //    JObject solveObj = new JObject();
+        //    solveObj["Name"] = name;
+        //    solveObj["solution"] = ToString();
+        //    solveObj["NodesEvaluated"] = numOfStates();
+        //    return solveObj.ToString();
+        //}
+        public Stack<State<T>> getBackTrace() { return backTrace; }
     }
 }

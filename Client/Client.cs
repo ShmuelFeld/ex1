@@ -44,7 +44,9 @@ namespace Client
                             break;
                         }
                         Console.WriteLine("{0}", feedback);
+                        
                     }
+                    reader.ReadLine();
                     //Byte[] bytes = new Byte[1024];
                     ////NetworkStream nwstream = client.GetStream();
                     //using (NetworkStream nwstream = client.GetStream())

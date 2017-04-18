@@ -70,13 +70,15 @@ namespace ex1
             }
             //BFS
             if (algorithm == 0)
-            {
-                return BFSsoliutions[name] as MazeSolution; //todo
+            {                
+                MazeSolution bfsSolustion = new MazeSolution(BFSsoliutions[name].getBackTrace());
+                return bfsSolustion; 
             }
             //DFS
             else if (algorithm == 1)
             {
-                return DFSsoliutions[name] as MazeSolution; //todo
+                MazeSolution dfsSolustion = new MazeSolution(DFSsoliutions[name].getBackTrace());
+                return dfsSolustion;
             }
             return null; 
         }

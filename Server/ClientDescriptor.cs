@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ex1;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -24,24 +25,48 @@ namespace Server
         public void startListening()
         {
             this.task = new Task(() =>{
-                Byte[] bytes = new Byte[1024];
-                NetworkStream stream = this.tcp.GetStream();
-                int i;
-                while (!this.endOfCommunication)
+                using (NetworkStream stream = tcp.GetStream())
+                using (StreamReader reader = new StreamReader(stream))
+                using (StreamWriter writer = new StreamWriter(stream))
                 {
-                    if ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
+                    while (true)
                     {
-                        string data = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
-                        Console.WriteLine("Received: {0}", data);
-                        stream.Flush();
-                        
-                        //bytes = System.Text.Encoding.ASCII.GetBytes(data);
-                        //stream.Write(bytes, 0, bytes.Length);
-                        //stream.Flush();
-                        notifyObservers(data);
-
+                        string commandLine = reader.ReadLine();
+                        //notifyObservers(commandLine);
+                        IController c = new Controller();
+                        string result = c.ExecuteCommand(commandLine, tcp);
+                        Console.WriteLine(result);
+                        result += '\n';
+                        result += '@';
+                        writer.WriteLine(result);
+                       // writer.Flush();
+                        writer.Flush();
+                        //Console.WriteLine(commandLine);
+                        //string result = controller.executeCommand(commandLine, client);
+                        //Console.WriteLine("the result we wanna send: {0}", result);
+                        //result += '\n';
+                        //result += '@';
+                        //writer.WriteLine(result);
+                        //writer.Flush();
                     }
                 }
+                //Byte[] bytes = new Byte[1024];
+                //NetworkStream stream = this.tcp.GetStream();
+                //int i;
+                //while (!this.endOfCommunication)
+                //{
+                //    if ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
+                //    {
+                //        string data = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
+                //        Console.WriteLine("Received: {0}", data);
+                //        stream.Flush();
+
+                //        //bytes = System.Text.Encoding.ASCII.GetBytes(data);
+                //        //stream.Write(bytes, 0, bytes.Length);
+                //        //stream.Flush();
+                //        notifyObservers(data);
+
+                //    }
             });
             task.Start();
         }
@@ -77,13 +102,13 @@ namespace Server
             using (StreamReader reader = new StreamReader(stream))
             using (StreamWriter writer = new StreamWriter(stream))
             {
-                while (!this.endOfCommunication)
-                {
+               // while (!this.endOfCommunication)
+               // {
                     data += '\n';
                     data += '@';
                     writer.WriteLine(data);
                     writer.Flush();
-                }
+               // }
             }
             //Byte[] bytes = new Byte[1024];
             //using (NetworkStream stream = tcp.GetStream())
