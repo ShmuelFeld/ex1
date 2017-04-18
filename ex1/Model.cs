@@ -11,7 +11,7 @@ namespace ex1
 {
     public class Model : IModel
     {
-        IController controller;     //   
+        IController controller;        
         Dictionary<string, Maze> mazes;
         Dictionary<string, Solution<Position>> BFSsoliutions;
         Dictionary<string, Solution<Position>> DFSsoliutions;
