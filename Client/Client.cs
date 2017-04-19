@@ -32,47 +32,62 @@ namespace Client
             {
                 while (true)
                 {
+                    bool isMulti = false;
                     string command = Console.ReadLine();
-                    writer.WriteLine(command);
+                    if ((command.Contains("start")) || (command.Contains("join")))
+                    {
+                        isMulti = true;
+                    }
+                   writer.WriteLine(command);
                     writer.Flush();
                     while (true)
                     {
                         string feedback = reader.ReadLine();
                         if (reader.Peek() == '@')
                         {
+                            Console.WriteLine("{0}", feedback);
                             feedback.TrimEnd('\n');
                             break;
                         }
-                        Console.WriteLine("{0}", feedback);
-                        
+                        Console.WriteLine("{0}", feedback);                        
                     }
                     reader.ReadLine();
-                    //Byte[] bytes = new Byte[1024];
-                    ////NetworkStream nwstream = client.GetStream();
-                    //using (NetworkStream nwstream = client.GetStream())
-                    //using (BinaryReader reader = new BinaryReader(nwstream))
-                    //using (BinaryWriter writer = new BinaryWriter(nwstream))
-                    //{
-                    //    while (!this.endOfCommunication)
-                    //    {
-                    //        string da = Console.ReadLine();
-                    //        bytes = System.Text.Encoding.ASCII.GetBytes(da);
-                    //        string[] arr = da.Split(' ');
-                    //        string commandKey = arr[0];
-                    //        nwstream.Write(bytes, 0, bytes.Length);
-                    //        nwstream.Flush();
-                    //        bytes.Initialize();
-                    //        int i;
-                    //        i = nwstream.Read(bytes, 0, bytes.Length);
-                    //        da = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
-                    //        Console.WriteLine(da);
-                    //        if ((da == "generate") || (da == "solve"))
-                    //        {
-                    //            client = new TcpClient();
-                    //            //nwstream = client.GetStream();
-                    //        }
-                    //    }
-                    //}
+                    //if ((command.Contains("start")) || (command.Contains("join")))
+                    if (isMulti)
+                    {
+                        Task listenTask = new Task(() =>
+                        {
+                            while (true)
+                            {
+                                command = Console.ReadLine();
+                                writer.WriteLine(command);
+                                writer.Flush();
+                            }
+                        });
+                        Task sendTask = new Task(() =>
+                        {
+                            while (true)
+                            {
+                                string feedback;
+                                while (true)
+                                {
+                                    feedback = reader.ReadLine();
+                                    if (reader.Peek() == '@')
+                                    {                                        
+                                        Console.WriteLine("{0}", feedback);
+                                        feedback.TrimEnd('\n');
+                                        break;
+                                    }
+                                    Console.WriteLine("{0}", feedback);
+                                }                                
+                                reader.ReadLine();
+                            }
+                        });
+                        sendTask.Start();
+                        listenTask.Start();
+                        sendTask.Wait();
+                        listenTask.Wait();
+                    }
                 }
             }
         }

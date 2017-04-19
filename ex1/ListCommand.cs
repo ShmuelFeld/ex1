@@ -21,6 +21,12 @@ namespace ex1
             List<Maze> availableGamesList = model.getListOfAvailableGames();
             return ToJSON(availableGamesList);
         }
+
+        public void setView(IView v)
+        {
+            throw new NotImplementedException();
+        }
+
         private string ToJSON(List<Maze> list)
         {
             JArray listArr = new JArray();

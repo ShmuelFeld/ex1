@@ -14,8 +14,8 @@ namespace ex1
         MazeSolution solveMaze(string name,int  algorithm);
         Maze startGame(string name, int rows, int cols, TcpClient tcp);
         List<Maze> getListOfAvailableGames();
-        Maze join(string name);
-        Move play(Move move);
+        Maze join(string name, TcpClient tcp);
+        MultiPlayerGame play(Direction move, TcpClient client);
         //close
     }
 }

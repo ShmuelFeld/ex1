@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ex1;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
@@ -11,16 +12,19 @@ namespace Server
     {
         private Server server;
         private List<ClientDescriptor> listOfClients;
+        private IController controller;
+
         public ClientPool(Server ser)
         {
             this.server = ser;
             this.listOfClients = new List<ClientDescriptor>();
+            controller = new Controller();
         }
         public void addClient(TcpClient client, Server ser)
         {
-            ClientDescriptor cli = new ClientDescriptor(client);
+            ClientDescriptor cli = new ClientDescriptor(client, controller);
             this.listOfClients.Add(cli);
-            cli.addObserver(ser);
+          //  cli.addObserver(ser);
 
         }
         public void closeCommunication()

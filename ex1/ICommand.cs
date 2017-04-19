@@ -10,5 +10,6 @@ namespace ex1
     public interface ICommand
     {
         string Execute(string[] args, TcpClient client);
+        void setView(IView v);
     }
 }

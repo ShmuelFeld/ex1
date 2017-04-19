@@ -21,11 +21,12 @@ namespace ex1
             int rows = int.Parse(args[1]);
             int cols = int.Parse(args[2]);
             Maze maze = model.generateMaze(name, rows, cols);
-            if (maze == null)
-            {
-                return "maze name already exists";
-            }
             return maze.ToJSON();
+        }
+
+        public void setView(IView v)
+        {
+            throw new NotImplementedException();
         }
     }
 }

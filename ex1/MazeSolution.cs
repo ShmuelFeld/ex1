@@ -19,10 +19,10 @@ namespace ex1
         {
             string solution = "";
             Stack<State<Position>> temp = backTrace;
-            State<Position> prev = temp.First();
-            while (!temp.Any())
+            State<Position> prev = temp.Pop();
+            while (temp.Any())
             {
-                State<Position> cur = temp.First();
+                State<Position> cur = temp.Pop();
                 int pRow = prev.Instance.Row;
                 int pCol = prev.Instance.Col;
                 int cRow = cur.Instance.Row;
@@ -47,6 +47,7 @@ namespace ex1
                 {
                     solution += "3";
                 }
+                prev = cur;
             }
             return solution;
         }

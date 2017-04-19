@@ -12,7 +12,10 @@ namespace ex1
         private Dictionary<string, ICommand> commands;
         private IModel model;
         private IView view;
-        public void setView(IView view) { this.view = view; }
+        public void setView(IView view) {
+            this.view = view;
+            commands["play"].setView(view);
+        }
         public void setModel(IModel model) { this.model = model; }
         public Controller()
         {
@@ -23,6 +26,7 @@ namespace ex1
             addCommand("solve", new SolveGameCommand(model));
             addCommand("start", new StartGameCommand(model));
             addCommand("join", new JoinCommand(model));
+            addCommand("play", new PlayCommand(model));
         }
         public void addCommand(string s, ICommand command)
         {
@@ -36,7 +40,7 @@ namespace ex1
                 return "Command not found";
             string[] args = arr.Skip(1).ToArray();
             ICommand command = commands[commandKey];
-            return command.Execute(args, null);
+            return command.Execute(args, client);
         }
     }
 

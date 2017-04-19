@@ -9,15 +9,18 @@ using System.Threading.Tasks;
 
 namespace Server
 {
-    class ClientDescriptor: IObservable
+    class ClientDescriptor: IView
     {
         private TcpClient tcp;
         private Task task;
         private bool endOfCommunication;
+        private IController controller;
         private List<IObserver> observers;
-        public ClientDescriptor(TcpClient tc)
+        public ClientDescriptor(TcpClient tc, IController cntrlr)
         {
             this.tcp = tc;
+            controller = cntrlr;
+            controller.setView(this);
             this.endOfCommunication = false;
             this.observers = new List<IObserver>();
             startListening();
@@ -32,43 +35,28 @@ namespace Server
                     while (true)
                     {
                         string commandLine = reader.ReadLine();
-                        //notifyObservers(commandLine);
-                        IController c = new Controller();
-                        string result = c.ExecuteCommand(commandLine, tcp);
+                        string result = controller.ExecuteCommand(commandLine, tcp);
                         Console.WriteLine(result);
                         result += '\n';
                         result += '@';
                         writer.WriteLine(result);
-                       // writer.Flush();
                         writer.Flush();
-                        //Console.WriteLine(commandLine);
-                        //string result = controller.executeCommand(commandLine, client);
-                        //Console.WriteLine("the result we wanna send: {0}", result);
-                        //result += '\n';
-                        //result += '@';
-                        //writer.WriteLine(result);
-                        //writer.Flush();
                     }
                 }
-                //Byte[] bytes = new Byte[1024];
-                //NetworkStream stream = this.tcp.GetStream();
-                //int i;
-                //while (!this.endOfCommunication)
-                //{
-                //    if ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
-                //    {
-                //        string data = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
-                //        Console.WriteLine("Received: {0}", data);
-                //        stream.Flush();
-
-                //        //bytes = System.Text.Encoding.ASCII.GetBytes(data);
-                //        //stream.Write(bytes, 0, bytes.Length);
-                //        //stream.Flush();
-                //        notifyObservers(data);
-
-                //    }
             });
             task.Start();
+        }
+        public void sendToOtherClient(string data, TcpClient otherClient)
+        {
+            NetworkStream stream = otherClient.GetStream();
+            StreamWriter writer = new StreamWriter(stream);
+            {
+                    Console.WriteLine(data);
+                    data += '\n';
+                    data += '@';
+                    writer.WriteLine(data);
+                    writer.Flush();
+            }
         }
         public Task getTask()
         {
@@ -88,37 +76,25 @@ namespace Server
             this.observers.Add(observer);
         }
          
-        public void notifyObservers(string str)
-        {
-            foreach (IObserver item in this.observers)
-            {
-                item.newMessageArrived(str, this);
-            }
-        }
+        //public void notifyObservers(string str)
+        //{
+        //    foreach (IObserver item in this.observers)
+        //    {
+        //        item.newMessageArrived(str, this);
+        //    }
+        //}
 
-        public void sendToClient(string data)
-        {
-            using (NetworkStream stream = tcp.GetStream())
-            using (StreamReader reader = new StreamReader(stream))
-            using (StreamWriter writer = new StreamWriter(stream))
-            {
-               // while (!this.endOfCommunication)
-               // {
-                    data += '\n';
-                    data += '@';
-                    writer.WriteLine(data);
-                    writer.Flush();
-               // }
-            }
-            //Byte[] bytes = new Byte[1024];
-            //using (NetworkStream stream = tcp.GetStream())
-            //using (BinaryReader reader = new BinaryReader(stream))
-            //using (BinaryWriter writer = new BinaryWriter(stream))            //{
-            //    bytes = System.Text.Encoding.ASCII.GetBytes(data);
-            //    writer.Write(bytes, 0, bytes.Length);
-            //    stream.Flush() ;
-            //    writer.Flush();
-            //}
-        }
+        //public void sendToClient(string data)
+        //{
+        //    using (NetworkStream stream = tcp.GetStream())
+        //    using (StreamReader reader = new StreamReader(stream))
+        //    using (StreamWriter writer = new StreamWriter(stream))
+        //    {
+        //            data += '\n';
+        //            data += '@';
+        //            writer.WriteLine(data);
+        //            writer.Flush();
+        //    }
+        //}
     }
 }

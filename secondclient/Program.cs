@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ex1
+namespace secondclient
 {
-    public interface IView
+    class Program
     {
-        void sendToOtherClient(string data, TcpClient otherClient);
+        static void Main(string[] args)
+        {
+        }
     }
 }

@@ -23,5 +23,10 @@ namespace ex1
             Maze maze = model.startGame(name, rows, cols, client);
             return maze.ToJSON();
         }
+
+        public void setView(IView v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

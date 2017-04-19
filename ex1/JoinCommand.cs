@@ -18,12 +18,17 @@ namespace ex1
         public string Execute(string[] args, TcpClient client)
         {
             string name = args[0];
-            Maze joinedMaze = model.join(name);
+            Maze joinedMaze = model.join(name, client);
             if (joinedMaze == null)
             {
                 return "maze isn't in join list";
             }
             return joinedMaze.ToJSON();
+        }
+
+        public void setView(IView v)
+        {
+            throw new NotImplementedException();
         }
     }
 }

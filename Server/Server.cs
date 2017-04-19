@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Server
 {
-    class Server: IObserver
+    class Server
     {
         private IController controller;
         private TcpListener listener;
@@ -28,20 +28,20 @@ namespace Server
         {
             controller = cntrl;
         }
-        public void newMessageArrived(string command, IObservable observable)
-        {
-            ClientDescriptor cd = observable as ClientDescriptor;
-            TcpClient tcp = cd.getTcpClient();
-            string result = controller.ExecuteCommand(command, tcp);
-            Console.WriteLine(result);
-            cd.sendToClient(result);
-        }
+        //public void newMessageArrived(string command, IObservable observable)
+        //{
+        //    ClientDescriptor cd = observable as ClientDescriptor;
+        //    TcpClient tcp = cd.getTcpClient();
+        //    string result = controller.ExecuteCommand(command, tcp);
+        //    Console.WriteLine(result);
+        //    cd.sendToClient(result);
+        //}
         public void StartToListen()
         {
             Task listen = new Task(() =>
             {
+                while (true) { 
                 TcpClient cli = listener.AcceptTcpClient();
-                while (cli != null) {
                     if (cli != null)
                     {
                         Console.WriteLine("Waiting for client connections...");

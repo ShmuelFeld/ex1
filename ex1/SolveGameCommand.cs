@@ -15,13 +15,19 @@ namespace ex1
         {
             this.model = model;
         }
-        //TODO
+
         public string Execute(string[] args, TcpClient client)
         {
             string name = args[0];
             int algorithm = int.Parse(args[1]);
             MazeSolution solution = model.solveMaze(name, algorithm);
+            if(solution == null) { return "maze isn't in solve list"; }
             return solution.ToJSON(name);
+        }
+
+        public void setView(IView v)
+        {
+            throw new NotImplementedException();
         }
     }
 }
