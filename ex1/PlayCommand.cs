@@ -20,14 +20,14 @@ namespace ex1
         public void setView(IView v) { view = v; }
         public string Execute(string[] args, TcpClient client)
         {
-            //string name = args[0];
-            Direction move =  (Direction)int.Parse(args[0]);
-            string moveString = null;
-            if (move == Direction.Up) { moveString = "up"; }
-            else if (move == Direction.Down) { moveString = "down"; }
-            else if (move == Direction.Right) { moveString = "right"; }
-            else if (move == Direction.Left) { moveString = "left"; }
-            else { return "invalid move"; }
+            string move =  args[0];
+            //string moveString = null;
+            //if (move == Direction.Up) { moveString = "up"; }
+            //else if (move == Direction.Down) { moveString = "down"; }
+            //else if (move == Direction.Right) { moveString = "right"; }
+            //else if (move == Direction.Left) { moveString = "left"; }
+            //else { return "invalid move"; }
+            if((move != "up") && (move != "down") && (move != "right") && (move != "left")) { return "invalid move"; }
             MultiPlayerGame game = model.play(move, client);
             TcpClient tcpOfOtherClient = null;
             if (game.FirstPlayer == client) {
@@ -37,7 +37,7 @@ namespace ex1
             {
                 tcpOfOtherClient = game.FirstPlayer;
             }
-            view.sendToOtherClient(ToJSON(game.getMazeName(), moveString), tcpOfOtherClient);
+            view.sendToOtherClient(ToJSON(game.getMazeName(), move), tcpOfOtherClient);
             return "other player has been notified";
         }
         public string ToJSON(string name, string move)

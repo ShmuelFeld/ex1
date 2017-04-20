@@ -84,8 +84,8 @@ namespace ex1
         {
             Maze maze;
             if (mazes.ContainsKey(name))
-            {                
-                maze = mazes[name];
+            {
+                return null;
             }
             else
             {
@@ -114,11 +114,21 @@ namespace ex1
             return mazes[name];
         }
 
-        public MultiPlayerGame play(Direction move, TcpClient client)
+        public MultiPlayerGame play(string move, TcpClient client)
         {
             foreach (MultiPlayerGame m in multiPlayerGames.Values)
             {
                 if ((client == m.FirstPlayer) || (client == m.getSecondPlayer())) { return m; }
+            }
+            return null;
+        }
+        public TcpClient close (TcpClient client)
+        {
+            foreach (MultiPlayerGame m in multiPlayerGames.Values)
+            {
+                if(client == m.FirstPlayer) { return m.getSecondPlayer(); }
+                else if (client == m.getSecondPlayer()) { return m.FirstPlayer; }
+                multiPlayerGames.Remove(m.getMazeName());
             }
             return null;
         }

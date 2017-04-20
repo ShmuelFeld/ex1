@@ -15,7 +15,7 @@ namespace ex1
         Maze startGame(string name, int rows, int cols, TcpClient tcp);
         List<Maze> getListOfAvailableGames();
         Maze join(string name, TcpClient tcp);
-        MultiPlayerGame play(Direction move, TcpClient client);
-        //close
+        MultiPlayerGame play(string move, TcpClient client);
+        TcpClient close(TcpClient client);
     }
 }

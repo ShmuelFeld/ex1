@@ -39,6 +39,11 @@ namespace Server
                     {
                         //bool isToClose = false;
                         string commandLine = reader.ReadLine();
+                        if(commandLine == "close your server")
+                        {
+                            endOfCommunication = true;
+                            break;
+                        }
                         foreach (string command in commandsToClose)
                         {
                             if (commandLine.Contains(command))
@@ -52,11 +57,7 @@ namespace Server
                         result += '@';
                         writer.WriteLine(result);
                         writer.Flush();
-                        //if (isToClose)
-                        //{
-                        //    closeClient();
-                        //    //break;
-                        //}
+                        if (result.Contains("close")) { endOfCommunication = true; }
                     }
                     Console.WriteLine("client handler done");
                 }

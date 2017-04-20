@@ -16,6 +16,9 @@ namespace Client
         private TcpClient client;
         private bool endOfCommunication;
         IPEndPoint ep;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Client"/> class.
+        /// </summary>
         public Client()
         {
             ep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 8000);
@@ -27,17 +30,22 @@ namespace Client
 
         public void SendSomeMessage(string str)
         {
+            string command = null;
+            string move = "move";
+            int isToWrite = 1;
             NetworkStream stream = client.GetStream();
-             StreamReader reader = new StreamReader(stream);
-             StreamWriter writer = new StreamWriter(stream);
+            StreamReader reader = new StreamReader(stream);
+            StreamWriter writer = new StreamWriter(stream);
             {
-                while (true)
+                while (!endOfCommunication)
                 {
                     bool isMulti = false;
-                    string command = Console.ReadLine();
+                    if(isToWrite != 0)
+                    {
+                        command = Console.ReadLine();
+                    }
                     if (!client.Connected)
                     {
-                        //IPEndPoint ep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 8000);
                         client = new TcpClient();
                         client.Connect(ep);
                         stream = client.GetStream();
@@ -59,7 +67,7 @@ namespace Client
                             feedback.TrimEnd('\n');
                             break;
                         }
-                        Console.WriteLine("{0}", feedback);                        
+                        Console.WriteLine("{0}", feedback);
                     }
                     reader.ReadLine();
                     if (isMulti)
@@ -69,7 +77,8 @@ namespace Client
                         {
                             while (!close)
                             {
-                                command = Console.ReadLine();
+                                command =  Console.ReadLine();
+                                Console.WriteLine("console read");
                                 if (command.Contains("close")) { close = true; }
                                 writer.WriteLine(command);
                                 writer.Flush();
@@ -84,26 +93,42 @@ namespace Client
                                 {
                                     feedback = reader.ReadLine();
                                     if (reader.Peek() == '@')
-                                    {                                        
-                                        Console.WriteLine("{0}", feedback);
+                                    {
+                                        {
+                                            Console.WriteLine("{0}", feedback);
+                                        }
                                         feedback.TrimEnd('\n');
                                         break;
                                     }
                                     Console.WriteLine("{0}", feedback);
-                                }                                
+                                }
                                 reader.ReadLine();
+                                if (feedback == "close")
+                                {
+                                    close = true;
+                                }
+                                else if (feedback == "close your server")
+                                {
+                                    writer.WriteLine("close your server");
+                                    writer.Flush();
+                                    close = true;
+                                    isToWrite = -1;
+                                }
                             }
+                            
                         });
                         sendTask.Start();
                         listenTask.Start();
-                        sendTask.Wait();
-                        listenTask.Wait();
+                        while (!close) { }
+                        //command = move;
                     }
+                    Console.WriteLine("here");
                     client.Close();
-                    //IPEndPoint ep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 8000);
-                    //client = new TcpClient();
-                    //client.Connect(ep);
+                    isToWrite++;
                 }
+                stream.Dispose();
+                writer.Dispose();
+                reader.Dispose();
             }
         }
     }

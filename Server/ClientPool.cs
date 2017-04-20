@@ -25,6 +25,7 @@ namespace Server
             ClientDescriptor cli = new ClientDescriptor(client, controller);
             cli.addCommandToClose("generate");
             cli.addCommandToClose("solve");
+            cli.addCommandToClose("close");
             this.listOfClients.Add(cli);
           //  cli.addObserver(ser);
 
