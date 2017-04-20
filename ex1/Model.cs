@@ -9,17 +9,46 @@ using System.Net.Sockets;
 
 namespace ex1
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <seealso cref="ex1.IModel" />
     public class Model : IModel
     {
-        IController controller;        
+        /// <summary>
+        /// The controller
+        /// </summary>
+        IController controller;
+        /// <summary>
+        /// The mazes
+        /// </summary>
         Dictionary<string, Maze> mazes;
+        /// <summary>
+        /// The bf ssoliutions
+        /// </summary>
         Dictionary<string, Solution<Position>> BFSsoliutions;
+        /// <summary>
+        /// The df ssoliutions
+        /// </summary>
         Dictionary<string, Solution<Position>> DFSsoliutions;
+        /// <summary>
+        /// The waiting games
+        /// </summary>
         Dictionary<string, TcpClient> waitingGames;
+        /// <summary>
+        /// The multi player games
+        /// </summary>
         Dictionary<string, MultiPlayerGame> multiPlayerGames;
+        /// <summary>
+        /// The available games
+        /// </summary>
         List<Maze> availableGames;
         //private TaskPool taskPool;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Model"/> class.
+        /// </summary>
+        /// <param name="controller">The controller.</param>
         public Model(IController controller)
         {
             availableGames = new List<Maze>();
@@ -32,6 +61,13 @@ namespace ex1
             multiPlayerGames = new Dictionary<string, MultiPlayerGame>();
         }
 
+        /// <summary>
+        /// Generates the maze.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="rows">The rows.</param>
+        /// <param name="cols">The cols.</param>
+        /// <returns></returns>
         public Maze generateMaze(string name, int rows, int cols)
         {
             if (mazes.ContainsKey(name))
@@ -59,6 +95,12 @@ namespace ex1
             return maze;
         }
 
+        /// <summary>
+        /// Solves the maze.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="algorithm">The algorithm.</param>
+        /// <returns></returns>
         public MazeSolution solveMaze(string name, int algorithm)
         {           
             if (!mazes.ContainsKey(name))
@@ -80,6 +122,14 @@ namespace ex1
             return null; 
         }
 
+        /// <summary>
+        /// Starts the game.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="rows">The rows.</param>
+        /// <param name="cols">The cols.</param>
+        /// <param name="tcpClient">The TCP client.</param>
+        /// <returns></returns>
         public Maze startGame(string name, int rows, int cols, TcpClient tcpClient)
         {
             Maze maze;
@@ -98,11 +148,21 @@ namespace ex1
             multiPlayerGame.startGame(tcpClient, maze);            
             return maze;
         }
+        /// <summary>
+        /// Gets the list of available games.
+        /// </summary>
+        /// <returns></returns>
         public List<Maze> getListOfAvailableGames()
         {
             return availableGames;
         }
 
+        /// <summary>
+        /// Joins the specified name.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="tcpClient">The TCP client.</param>
+        /// <returns></returns>
         public Maze join(string name, TcpClient tcpClient)
         {
             if (!waitingGames.ContainsKey(name)) { return null; }
@@ -114,6 +174,12 @@ namespace ex1
             return mazes[name];
         }
 
+        /// <summary>
+        /// Plays the specified move.
+        /// </summary>
+        /// <param name="move">The move.</param>
+        /// <param name="client">The client.</param>
+        /// <returns></returns>
         public MultiPlayerGame play(string move, TcpClient client)
         {
             foreach (MultiPlayerGame m in multiPlayerGames.Values)
@@ -122,6 +188,11 @@ namespace ex1
             }
             return null;
         }
+        /// <summary>
+        /// Closes the specified client.
+        /// </summary>
+        /// <param name="client">The client.</param>
+        /// <returns></returns>
         public TcpClient close (TcpClient client)
         {
             foreach (MultiPlayerGame m in multiPlayerGames.Values)

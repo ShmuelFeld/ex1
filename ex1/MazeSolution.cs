@@ -8,13 +8,29 @@ using System.Threading.Tasks;
 
 namespace ex1
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class MazeSolution
     {
+        /// <summary>
+        /// The back trace
+        /// </summary>
         private Stack<State<Position>> backTrace;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MazeSolution"/> class.
+        /// </summary>
+        /// <param name="bt">The bt.</param>
         public MazeSolution(Stack<State<Position>> bt)
         {
             backTrace = bt;
         }
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
         public new string ToString()
         {
             string solution = "";
@@ -52,6 +68,11 @@ namespace ex1
             return solution;
         }
 
+        /// <summary>
+        /// To the json.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <returns></returns>
         public string ToJSON(string name)
         {
             JObject solveObj = new JObject();

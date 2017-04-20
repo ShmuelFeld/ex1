@@ -11,13 +11,25 @@ using System.IO;
 
 namespace Client
 {
+    /// <summary>
+    /// 
+    /// </summary>
     class Client
     {
+        /// <summary>
+        /// The client
+        /// </summary>
         private TcpClient client;
+        /// <summary>
+        /// The end of communication
+        /// </summary>
         private bool endOfCommunication;
+        /// <summary>
+        /// The ep
+        /// </summary>
         IPEndPoint ep;
         /// <summary>
-        /// Initializes a new instance of the <see cref="Client"/> class.
+        /// Initializes a new instance of the <see cref="Client" /> class.
         /// </summary>
         public Client()
         {
@@ -28,6 +40,10 @@ namespace Client
             this.endOfCommunication = false;
         }
 
+        /// <summary>
+        /// Sends some message.
+        /// </summary>
+        /// <param name="str">The string.</param>
         public void SendSomeMessage(string str)
         {
             string command = null;
