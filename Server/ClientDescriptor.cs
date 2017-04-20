@@ -15,16 +15,19 @@ namespace Server
         private Task task;
         private bool endOfCommunication;
         private IController controller;
-        private List<IObserver> observers;
+        private List<string> commandsToClose;
+        //private List<IObserver> observers;
         public ClientDescriptor(TcpClient tc, IController cntrlr)
         {
             this.tcp = tc;
             controller = cntrlr;
             controller.setView(this);
             this.endOfCommunication = false;
-            this.observers = new List<IObserver>();
+            commandsToClose = new List<string>();
+            //this.observers = new List<IObserver>();
             startListening();
         }
+        public void addCommandToClose(string command) { commandsToClose.Add(command); }
         public void startListening()
         {
             this.task = new Task(() =>{
@@ -32,19 +35,46 @@ namespace Server
                 using (StreamReader reader = new StreamReader(stream))
                 using (StreamWriter writer = new StreamWriter(stream))
                 {
-                    while (true)
+                    while (!endOfCommunication) 
                     {
+                        //bool isToClose = false;
                         string commandLine = reader.ReadLine();
+                        foreach (string command in commandsToClose)
+                        {
+                            if (commandLine.Contains(command))
+                            {
+                                endOfCommunication = true;
+                            }
+                        }
                         string result = controller.ExecuteCommand(commandLine, tcp);
                         Console.WriteLine(result);
                         result += '\n';
                         result += '@';
                         writer.WriteLine(result);
                         writer.Flush();
+                        //if (isToClose)
+                        //{
+                        //    closeClient();
+                        //    //break;
+                        //}
                     }
+                    Console.WriteLine("client handler done");
                 }
             });
             task.Start();
+        }
+        public void closeClient()
+        {
+            NetworkStream stream = tcp.GetStream();
+            StreamWriter writer = new StreamWriter(stream);
+            {
+                string data = "";
+                Console.WriteLine("closing client");
+                data += '\n';
+                data += '@';
+                writer.WriteLine(data);
+                writer.Flush();
+            }
         }
         public void sendToOtherClient(string data, TcpClient otherClient)
         {
@@ -71,10 +101,10 @@ namespace Server
             this.endOfCommunication = true;
         }
 
-        public void addObserver(IObserver observer)
-        {
-            this.observers.Add(observer);
-        }
+        //public void addObserver(IObserver observer)
+        //{
+        //    this.observers.Add(observer);
+        //}
          
         //public void notifyObservers(string str)
         //{

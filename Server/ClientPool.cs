@@ -23,6 +23,8 @@ namespace Server
         public void addClient(TcpClient client, Server ser)
         {
             ClientDescriptor cli = new ClientDescriptor(client, controller);
+            cli.addCommandToClose("generate");
+            cli.addCommandToClose("solve");
             this.listOfClients.Add(cli);
           //  cli.addObserver(ser);
 

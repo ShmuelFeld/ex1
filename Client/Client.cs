@@ -15,9 +15,10 @@ namespace Client
     {
         private TcpClient client;
         private bool endOfCommunication;
+        IPEndPoint ep;
         public Client()
         {
-            IPEndPoint ep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 8000);
+            ep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 8000);
             client = new TcpClient();
             client.Connect(ep);
             Console.WriteLine("I'm connected");
@@ -26,19 +27,28 @@ namespace Client
 
         public void SendSomeMessage(string str)
         {
-            using (NetworkStream stream = client.GetStream())
-            using (StreamReader reader = new StreamReader(stream))
-            using (StreamWriter writer = new StreamWriter(stream))
+            NetworkStream stream = client.GetStream();
+             StreamReader reader = new StreamReader(stream);
+             StreamWriter writer = new StreamWriter(stream);
             {
                 while (true)
                 {
                     bool isMulti = false;
                     string command = Console.ReadLine();
+                    if (!client.Connected)
+                    {
+                        //IPEndPoint ep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 8000);
+                        client = new TcpClient();
+                        client.Connect(ep);
+                        stream = client.GetStream();
+                        reader = new StreamReader(stream);
+                        writer = new StreamWriter(stream);
+                    }
                     if ((command.Contains("start")) || (command.Contains("join")))
                     {
                         isMulti = true;
                     }
-                   writer.WriteLine(command);
+                    writer.WriteLine(command);
                     writer.Flush();
                     while (true)
                     {
@@ -52,21 +62,22 @@ namespace Client
                         Console.WriteLine("{0}", feedback);                        
                     }
                     reader.ReadLine();
-                    //if ((command.Contains("start")) || (command.Contains("join")))
                     if (isMulti)
                     {
-                        Task listenTask = new Task(() =>
+                        bool close = false;
+                        Task sendTask = new Task(() =>
                         {
-                            while (true)
+                            while (!close)
                             {
                                 command = Console.ReadLine();
+                                if (command.Contains("close")) { close = true; }
                                 writer.WriteLine(command);
                                 writer.Flush();
                             }
                         });
-                        Task sendTask = new Task(() =>
+                        Task listenTask = new Task(() =>
                         {
-                            while (true)
+                            while (!close)
                             {
                                 string feedback;
                                 while (true)
@@ -88,6 +99,10 @@ namespace Client
                         sendTask.Wait();
                         listenTask.Wait();
                     }
+                    client.Close();
+                    //IPEndPoint ep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 8000);
+                    //client = new TcpClient();
+                    //client.Connect(ep);
                 }
             }
         }

@@ -15,6 +15,7 @@ namespace ex1
         public void setView(IView view) {
             this.view = view;
             commands["play"].setView(view);
+            commands["close"].setView(view);
         }
         public void setModel(IModel model) { this.model = model; }
         public Controller()
@@ -27,6 +28,7 @@ namespace ex1
             addCommand("start", new StartGameCommand(model));
             addCommand("join", new JoinCommand(model));
             addCommand("play", new PlayCommand(model));
+            addCommand("close", new CloseCommand(model));
         }
         public void addCommand(string s, ICommand command)
         {

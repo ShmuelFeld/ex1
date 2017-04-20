@@ -46,6 +46,7 @@ namespace Server
                     {
                         Console.WriteLine("Waiting for client connections...");
                         this.clientPool.addClient(cli, this);
+                        Console.WriteLine("new client handler added");
                         cli = null;
                     }
             }
