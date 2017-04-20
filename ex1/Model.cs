@@ -126,9 +126,16 @@ namespace ex1
         {
             foreach (MultiPlayerGame m in multiPlayerGames.Values)
             {
-                if(client == m.FirstPlayer) { return m.getSecondPlayer(); }
-                else if (client == m.getSecondPlayer()) { return m.FirstPlayer; }
-                multiPlayerGames.Remove(m.getMazeName());
+                if(client == m.FirstPlayer)
+                {
+                    multiPlayerGames.Remove(m.getMazeName());
+                    return m.getSecondPlayer();
+                }
+                else if (client == m.getSecondPlayer())
+                {
+                    multiPlayerGames.Remove(m.getMazeName());
+                    return m.FirstPlayer;
+                }
             }
             return null;
         }

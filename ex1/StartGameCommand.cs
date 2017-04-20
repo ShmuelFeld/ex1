@@ -21,7 +21,7 @@ namespace ex1
             int rows = int.Parse(args[1]);
             int cols = int.Parse(args[2]);
             Maze maze = model.startGame(name, rows, cols, client);
-            if(maze == null) { return "list name already exist, please enter a new one"; }
+            if(maze == null) { return "game name already exist, please enter a new one"; }
             return maze.ToJSON();
         }
 

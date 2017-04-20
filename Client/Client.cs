@@ -111,6 +111,7 @@ namespace Client
                                 }
                                 else if (feedback == "close your server")
                                 {
+                                    writer.WriteLine(feedback);
                                     writer.Flush();
                                     close = true;
                                     isExecuted = false;
