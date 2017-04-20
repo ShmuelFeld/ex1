@@ -7,17 +7,42 @@ using System.Threading.Tasks;
 
 namespace ex1
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <seealso cref="ex1.IController" />
     public class Controller : IController
     {
+
+        /// <summary>
+        /// The commands
+        /// </summary>
         private Dictionary<string, ICommand> commands;
+        /// <summary>
+        /// The model
+        /// </summary>
         private IModel model;
+        /// <summary>
+        /// The view
+        /// </summary>
         private IView view;
+        /// <summary>
+        /// Sets the view.
+        /// </summary>
+        /// <param name="view">The view.</param>
         public void setView(IView view) {
             this.view = view;
             commands["play"].setView(view);
             commands["close"].setView(view);
         }
+        /// <summary>
+        /// Sets the model.
+        /// </summary>
+        /// <param name="model">The model.</param>
         public void setModel(IModel model) { this.model = model; }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Controller"/> class.
+        /// </summary>
         public Controller()
         {
             model = new Model(this);
@@ -30,10 +55,21 @@ namespace ex1
             addCommand("play", new PlayCommand(model));
             addCommand("close", new CloseCommand(model));
         }
+        /// <summary>
+        /// Adds the command.
+        /// </summary>
+        /// <param name="s">The s.</param>
+        /// <param name="command">The command.</param>
         public void addCommand(string s, ICommand command)
         {
             commands.Add(s, command);
         }
+        /// <summary>
+        /// Executes the command.
+        /// </summary>
+        /// <param name="commandLine">The command line.</param>
+        /// <param name="client">The client.</param>
+        /// <returns></returns>
         public string ExecuteCommand(string commandLine, TcpClient client)
         {
             string[] arr = commandLine.Split(' ');

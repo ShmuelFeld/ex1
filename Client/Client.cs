@@ -31,8 +31,7 @@ namespace Client
         public void SendSomeMessage(string str)
         {
             string command = null;
-            string move = "move";
-            int isToWrite = 1;
+            bool isExecuted = true;
             NetworkStream stream = client.GetStream();
             StreamReader reader = new StreamReader(stream);
             StreamWriter writer = new StreamWriter(stream);
@@ -40,10 +39,11 @@ namespace Client
                 while (!endOfCommunication)
                 {
                     bool isMulti = false;
-                    if(isToWrite != 0)
+                    if (isExecuted)
                     {
                         command = Console.ReadLine();
                     }
+                    isExecuted = true;
                     if (!client.Connected)
                     {
                         client = new TcpClient();
@@ -78,7 +78,6 @@ namespace Client
                             while (!close)
                             {
                                 command =  Console.ReadLine();
-                                Console.WriteLine("console read");
                                 if (command.Contains("close")) { close = true; }
                                 writer.WriteLine(command);
                                 writer.Flush();
@@ -95,7 +94,10 @@ namespace Client
                                     if (reader.Peek() == '@')
                                     {
                                         {
-                                            Console.WriteLine("{0}", feedback);
+                                            if ((feedback != "close") && (feedback != "close your server"))
+                                            {
+                                                Console.WriteLine("{0}", feedback);
+                                            }
                                         }
                                         feedback.TrimEnd('\n');
                                         break;
@@ -109,22 +111,18 @@ namespace Client
                                 }
                                 else if (feedback == "close your server")
                                 {
-                                    writer.WriteLine("close your server");
                                     writer.Flush();
                                     close = true;
-                                    isToWrite = -1;
+                                    isExecuted = false;
                                 }
-                            }
-                            
+                            }                            
                         });
                         sendTask.Start();
                         listenTask.Start();
-                        while (!close) { }
-                        //command = move;
+                        sendTask.Wait();
+                        listenTask.Wait();
                     }
-                    Console.WriteLine("here");
                     client.Close();
-                    isToWrite++;
                 }
                 stream.Dispose();
                 writer.Dispose();
