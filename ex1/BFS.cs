@@ -31,7 +31,7 @@ namespace ex1
                 State<T> n = popOpenList(); // inherited from Searcher, removes the best state
                 closed.Add(n);
                 if (n.Equals(isearchable.getGoalState()))
-                    return backTrace(isearchable.getInitialState(), n); // private method, back traces through the parents
+                    return backTrace(isearchable.getInitialState(), n, isearchable.getEvauatedNodes()); // private method, back traces through the parents
                                                    // calling the delegated method, returns a list of states with n as a parent
                 Dictionary<State<T>, double> succerssors = isearchable.getAllPossibleStates(n);
                 foreach (KeyValuePair<State<T>, double> s in succerssors)
@@ -65,7 +65,7 @@ namespace ex1
         /// <returns></returns>
         private Solution<T> backTrace(ISearchable<T> isearchable)
         {
-            Solution<T> solution = new Solution<T>();
+            Solution<T> solution = new Solution<T>(isearchable.getEvauatedNodes());
             State<T> state = isearchable.getGoalState();
             while (!state.Equals(isearchable.getInitialState()))
             {

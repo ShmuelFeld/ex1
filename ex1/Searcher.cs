@@ -46,9 +46,9 @@ namespace ex1
         /// <param name="init">The initialize.</param>
         /// <param name="goal">The goal.</param>
         /// <returns></returns>
-        public Solution<T> backTrace(State<T> init, State<T> goal) 
+        public Solution<T> backTrace(State<T> init, State<T> goal, int evaluatedNodes)
         {
-            Solution<T> solution = new Solution<T>();
+            Solution<T> solution = new Solution<T>(evaluatedNodes);
             while (!goal.Equals(init))
             {
                 solution.add(goal);

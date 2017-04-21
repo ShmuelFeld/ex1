@@ -17,13 +17,15 @@ namespace ex1
         /// The back trace
         /// </summary>
         private Stack<State<Position>> backTrace;
+        private int evaluatedNodes;
         /// <summary>
         /// Initializes a new instance of the <see cref="MazeSolution"/> class.
         /// </summary>
         /// <param name="bt">The bt.</param>
-        public MazeSolution(Stack<State<Position>> bt)
+        public MazeSolution(Stack<State<Position>> bt, int evaluated)
         {
             backTrace = bt;
+            this.evaluatedNodes = evaluated;
         }
         /// <summary>
         /// Returns a <see cref="System.String" /> that represents this instance.
@@ -78,7 +80,7 @@ namespace ex1
             JObject solveObj = new JObject();
             solveObj["Name"] = name;
             solveObj["solution"] = ToString();
-            solveObj["NodesEvaluated"] = backTrace.Count();
+            solveObj["NodesEvaluated"] = this.evaluatedNodes;
             return solveObj.ToString();
         }
     }

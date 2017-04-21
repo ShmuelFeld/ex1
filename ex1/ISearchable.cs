@@ -28,5 +28,6 @@ namespace ex1
         /// <param name="s">The s.</param>
         /// <returns></returns>
         Dictionary<State<T>, double> getAllPossibleStates(State<T> s);
+        int getEvauatedNodes();
     }
 }

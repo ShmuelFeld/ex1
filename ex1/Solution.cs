@@ -17,12 +17,14 @@ namespace ex1
         /// The back trace
         /// </summary>
         protected Stack<State<T>> backTrace;
+        private int evaluatedNodes;
         /// <summary>
         /// Initializes a new instance of the <see cref="Solution{T}"/> class.
         /// </summary>
-        public Solution()
+        public Solution(int evaluatedNodes)
         {
             backTrace = new Stack<State<T>>();
+            this.evaluatedNodes = evaluatedNodes;
         }
         // a property of backTrace
         // public Stack<State<T>> BackTrace { get; }
@@ -47,5 +49,6 @@ namespace ex1
         /// </summary>
         /// <returns></returns>
         public Stack<State<T>> getBackTrace() { return backTrace; }
+        public int getEvaluatedNodes() { return this.evaluatedNodes; }
     }
 }

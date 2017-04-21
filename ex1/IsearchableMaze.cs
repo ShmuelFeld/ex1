@@ -25,6 +25,7 @@ namespace ex1
         /// The goal position
         /// </summary>
         private Position goalPosition;
+        private int numberOfNodesEvaluated;
         /// <summary>
         /// Initializes a new instance of the <see cref="IsearchableMaze"/> class.
         /// </summary>
@@ -48,21 +49,25 @@ namespace ex1
             Position left = new Position(row, col - 1);
             if (isValid(left))
             {
+                this.numberOfNodesEvaluated++;
                 neighbors.Add(new State<Position>(left), 1);
             }
             Position up = new Position(row - 1, col);
             if (isValid(up))
             {
+                this.numberOfNodesEvaluated++;
                 neighbors.Add(new State<Position>(up), 1);
             }
             Position right = new Position(row, col + 1);
             if (isValid(right))
             {
+                this.numberOfNodesEvaluated++;
                 neighbors.Add(new State<Position>(right), 1);
             }
             Position down = new Position(row + 1, col);
             if (isValid(down))
             {
+                this.numberOfNodesEvaluated++;
                 neighbors.Add(new State<Position>(down), 1);
             }
             return neighbors;
@@ -97,6 +102,10 @@ namespace ex1
         State<Position> ISearchable<Position>.getInitialState()
         {
             return new State<Position>(this.initialPosition);
+        }
+        public int getEvauatedNodes()
+        {
+            return this.numberOfNodesEvaluated;
         }
     }
 }

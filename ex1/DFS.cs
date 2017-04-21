@@ -48,7 +48,7 @@ namespace ex1
                         s.Key.CameFrom = state;
                         if(s.Key.Equals(isearchable.getGoalState()))
                         {
-                            return backTrace(isearchable.getInitialState(), s.Key);
+                            return backTrace(isearchable.getInitialState(), s.Key, isearchable.getEvauatedNodes());
                         }
                     }
                 }

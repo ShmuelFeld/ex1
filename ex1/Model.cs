@@ -110,13 +110,13 @@ namespace ex1
             //BFS
             if (algorithm == 0)
             {                
-                MazeSolution bfsSolustion = new MazeSolution(BFSsoliutions[name].getBackTrace());
+                MazeSolution bfsSolustion = new MazeSolution(BFSsoliutions[name].getBackTrace(), BFSsoliutions[name].getEvaluatedNodes());
                 return bfsSolustion; 
             }
             //DFS
             else if (algorithm == 1)
             {
-                MazeSolution dfsSolustion = new MazeSolution(DFSsoliutions[name].getBackTrace());
+                MazeSolution dfsSolustion = new MazeSolution(DFSsoliutions[name].getBackTrace(), DFSsoliutions[name].getEvaluatedNodes());
                 return dfsSolustion;
             }
             return null; 
