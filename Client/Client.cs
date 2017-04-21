@@ -11,28 +11,67 @@ using System.IO;
 
 namespace Client
 {
+    /// <summary>
+    /// 
+    /// </summary>
     class Client
     {
+        /// <summary>
+        /// The client
+        /// </summary>
         private TcpClient client;
+        /// <summary>
+        /// The end of communication
+        /// </summary>
         private bool endOfCommunication;
+        /// <summary>
+        /// The ep
+        /// </summary>
+        IPEndPoint ep;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Client" /> class.
+        /// </summary>
         public Client()
         {
-            IPEndPoint ep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 8000);
+            ep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 8000);
             client = new TcpClient();
             client.Connect(ep);
             Console.WriteLine("I'm connected");
             this.endOfCommunication = false;
         }
 
+        /// <summary>
+        /// Sends some message.
+        /// </summary>
+        /// <param name="str">The string.</param>
         public void SendSomeMessage(string str)
         {
-            using (NetworkStream stream = client.GetStream())
-            using (StreamReader reader = new StreamReader(stream))
-            using (StreamWriter writer = new StreamWriter(stream))
+            string command = null;
+            bool isExecuted = true;
+            NetworkStream stream = client.GetStream();
+            StreamReader reader = new StreamReader(stream);
+            StreamWriter writer = new StreamWriter(stream);
             {
-                while (true)
+                while (!endOfCommunication)
                 {
-                    string command = Console.ReadLine();
+                    bool isMulti = false;
+                    if (isExecuted)
+                    {
+                        command = Console.ReadLine();
+                    }
+                    isExecuted = true;
+                    if (!client.Connected)
+                    {
+                        client = new TcpClient();
+                        client.Connect(ep);
+                        stream = client.GetStream();
+                        reader = new StreamReader(stream);
+                        writer = new StreamWriter(stream);
+                    }
+                    if ((command.Contains("start")) || (command.Contains("join")))
+                    {
+                        isMulti = true;
+                    }
                     writer.WriteLine(command);
                     writer.Flush();
                     while (true)
@@ -40,40 +79,71 @@ namespace Client
                         string feedback = reader.ReadLine();
                         if (reader.Peek() == '@')
                         {
+                            Console.WriteLine("{0}", feedback);
                             feedback.TrimEnd('\n');
                             break;
                         }
                         Console.WriteLine("{0}", feedback);
-                        
                     }
                     reader.ReadLine();
-                    //Byte[] bytes = new Byte[1024];
-                    ////NetworkStream nwstream = client.GetStream();
-                    //using (NetworkStream nwstream = client.GetStream())
-                    //using (BinaryReader reader = new BinaryReader(nwstream))
-                    //using (BinaryWriter writer = new BinaryWriter(nwstream))
-                    //{
-                    //    while (!this.endOfCommunication)
-                    //    {
-                    //        string da = Console.ReadLine();
-                    //        bytes = System.Text.Encoding.ASCII.GetBytes(da);
-                    //        string[] arr = da.Split(' ');
-                    //        string commandKey = arr[0];
-                    //        nwstream.Write(bytes, 0, bytes.Length);
-                    //        nwstream.Flush();
-                    //        bytes.Initialize();
-                    //        int i;
-                    //        i = nwstream.Read(bytes, 0, bytes.Length);
-                    //        da = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
-                    //        Console.WriteLine(da);
-                    //        if ((da == "generate") || (da == "solve"))
-                    //        {
-                    //            client = new TcpClient();
-                    //            //nwstream = client.GetStream();
-                    //        }
-                    //    }
-                    //}
+                    if (isMulti)
+                    {
+                        bool close = false;
+                        Task sendTask = new Task(() =>
+                        {
+                            while (!close)
+                            {
+                                command =  Console.ReadLine();
+                                if (command.Contains("close")) { close = true; }
+                                writer.WriteLine(command);
+                                writer.Flush();
+                            }
+                        });
+                        Task listenTask = new Task(() =>
+                        {
+                            while (!close)
+                            {
+                                string feedback;
+                                while (true)
+                                {
+                                    feedback = reader.ReadLine();
+                                    if (reader.Peek() == '@')
+                                    {
+                                        {
+                                            if ((feedback != "close") && (feedback != "close your server"))
+                                            {
+                                                Console.WriteLine("{0}", feedback);
+                                            }
+                                        }
+                                        feedback.TrimEnd('\n');
+                                        break;
+                                    }
+                                    Console.WriteLine("{0}", feedback);
+                                }
+                                reader.ReadLine();
+                                if (feedback == "close")
+                                {
+                                    close = true;
+                                }
+                                else if (feedback == "close your server")
+                                {
+                                    writer.WriteLine(feedback);
+                                    writer.Flush();
+                                    close = true;
+                                    isExecuted = false;
+                                }
+                            }                            
+                        });
+                        sendTask.Start();
+                        listenTask.Start();
+                        sendTask.Wait();
+                        listenTask.Wait();
+                    }
+                    client.Close();
                 }
+                stream.Dispose();
+                writer.Dispose();
+                reader.Dispose();
             }
         }
     }

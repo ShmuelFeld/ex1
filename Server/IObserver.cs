@@ -6,8 +6,16 @@ using System.Threading.Tasks;
 
 namespace Server
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public interface IObserver
     {
+        /// <summary>
+        /// News the message arrived.
+        /// </summary>
+        /// <param name="command">The command.</param>
+        /// <param name="observable">The observable.</param>
         void newMessageArrived(string command, IObservable observable);
     }
 }

@@ -9,12 +9,30 @@ using System.Threading.Tasks;
 
 namespace Server
 {
-    class Server: IObserver
+    /// <summary>
+    /// 
+    /// </summary>
+    class Server
     {
+        /// <summary>
+        /// The controller
+        /// </summary>
         private IController controller;
+        /// <summary>
+        /// The listener
+        /// </summary>
         private TcpListener listener;
+        /// <summary>
+        /// The client pool
+        /// </summary>
         private ClientPool clientPool;
+        /// <summary>
+        /// The end of communication
+        /// </summary>
         private bool endOfCommunication;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Server"/> class.
+        /// </summary>
         public Server()
         {
             IPEndPoint ep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 8000);
@@ -24,28 +42,28 @@ namespace Server
             listener.Start();
         }
 
+        /// <summary>
+        /// Sets the controller.
+        /// </summary>
+        /// <param name="cntrl">The CNTRL.</param>
         public void setController(IController cntrl)
         {
             controller = cntrl;
         }
-        public void newMessageArrived(string command, IObservable observable)
-        {
-            ClientDescriptor cd = observable as ClientDescriptor;
-            TcpClient tcp = cd.getTcpClient();
-            string result = controller.ExecuteCommand(command, tcp);
-            Console.WriteLine(result);
-            cd.sendToClient(result);
-        }
+        /// <summary>
+        /// Starts to listen.
+        /// </summary>
         public void StartToListen()
         {
             Task listen = new Task(() =>
             {
-                while (true) {
-                    TcpClient cli = listener.AcceptTcpClient();
+                while (true) { 
+                TcpClient cli = listener.AcceptTcpClient();
                     if (cli != null)
                     {
                         Console.WriteLine("Waiting for client connections...");
                         this.clientPool.addClient(cli, this);
+                        Console.WriteLine("new client handler added");
                         cli = null;
                     }
             }
