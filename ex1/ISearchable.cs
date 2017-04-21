@@ -16,18 +16,18 @@ namespace ex1
         /// Gets the initial state.
         /// </summary>
         /// <returns></returns>
-        State<T> GetInitialState();
+        State<T> getInitialState();
         /// <summary>
         /// Gets the state of the goal.
         /// </summary>
         /// <returns></returns>
-        State<T> GetGoalState();
+        State<T> getGoalState();
         /// <summary>
         /// Gets all possible states.
         /// </summary>
         /// <param name="s">The s.</param>
         /// <returns></returns>
-        Dictionary<State<T>, double> GetAllPossibleStates(State<T> s);
-        int GetEvauatedNodes();
+        Dictionary<State<T>, double> getAllPossibleStates(State<T> s);
+        int getEvauatedNodes();
     }
 }

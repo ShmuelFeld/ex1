@@ -23,14 +23,14 @@ namespace ex1
         /// <summary>
         /// The second player
         /// </summary>
-        public TcpClient SecondPlayer { get; set; }
+        public TcpClient secondPlayer;// { get; set; }
         /// <summary>
         /// Gets or sets the maze.
         /// </summary>
         /// <value>
         /// The maze.
         /// </value>
-        public Maze Maze { get; set; }
+        public Maze maze { get; set; }
         /// <summary>
         /// The is joined
         /// </summary>
@@ -46,16 +46,16 @@ namespace ex1
         /// Gets the second player.
         /// </summary>
         /// <returns></returns>
-        public TcpClient GetSecondPlayer() { return SecondPlayer; }
+        public TcpClient getSecondPlayer() { return secondPlayer; }
         /// <summary>
         /// Starts the game.
         /// </summary>
         /// <param name="player1">The player1.</param>
         /// <param name="m">The m.</param>
         /// <returns></returns>
-        public bool StartGame(TcpClient player1, Maze m)
+        public bool startGame(TcpClient player1, Maze m)
         {
-            Maze = m;
+            maze = m;
             FirstPlayer = player1;
             while (!isJoined) { }
             return true;
@@ -66,13 +66,13 @@ namespace ex1
         /// <param name="player2">The player2.</param>
         public void join(TcpClient player2)
         {
-            SecondPlayer = player2;
+            secondPlayer = player2;
             isJoined = true;
         }
         /// <summary>
         /// Gets the name of the maze.
         /// </summary>
         /// <returns></returns>
-        public string GetMazeName() { return Maze.Name; }
+        public string getMazeName() { return maze.Name; }
     }
 }

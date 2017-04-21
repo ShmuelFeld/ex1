@@ -26,11 +26,11 @@ namespace ex1
         /// <summary>
         /// The bf ssoliutions
         /// </summary>
-        Dictionary<string, Solution<Position>> bfsSoliutions;
+        Dictionary<string, Solution<Position>> BFSsoliutions;
         /// <summary>
         /// The df ssoliutions
         /// </summary>
-        Dictionary<string, Solution<Position>> dfsSoliutions;
+        Dictionary<string, Solution<Position>> DFSsoliutions;
         /// <summary>
         /// The waiting games
         /// </summary>
@@ -55,8 +55,8 @@ namespace ex1
             //taskPool = new TaskPool();
             mazes = new Dictionary<string, Maze>();
             this.controller = controller;
-            bfsSoliutions = new Dictionary<string, Solution<Position>>();
-            dfsSoliutions = new Dictionary<string, Solution<Position>>();
+            BFSsoliutions = new Dictionary<string, Solution<Position>>();
+            DFSsoliutions = new Dictionary<string, Solution<Position>>();
             waitingGames = new Dictionary<string, TcpClient>();
             multiPlayerGames = new Dictionary<string, MultiPlayerGame>();
         }
@@ -68,7 +68,7 @@ namespace ex1
         /// <param name="rows">The rows.</param>
         /// <param name="cols">The cols.</param>
         /// <returns></returns>
-        public Maze GenerateMaze(string name, int rows, int cols)
+        public Maze generateMaze(string name, int rows, int cols)
         {
             if (mazes.ContainsKey(name))
             {
@@ -80,18 +80,18 @@ namespace ex1
             maze.Name = name;
             mazes.Add(name, maze);
             IsearchableMaze ism = new IsearchableMaze(maze);
-            Task bfsSolutionTask = new Task(() =>
+            Task BFSsolutionTask = new Task(() =>
             {
                 BFS<Position> bfs = new BFS<Position>();
-                bfsSoliutions.Add(maze.Name, bfs.Search(ism));
+                BFSsoliutions.Add(maze.Name, bfs.search(ism));
             });
-            bfsSolutionTask.Start();
-            Task dfsSolutionTask = new Task(() =>
+            BFSsolutionTask.Start();
+            Task DFSsolutionTask = new Task(() =>
             {
                 DFS<Position> dfs = new DFS<Position>();
-                dfsSoliutions.Add(maze.Name, dfs.Search(ism));
+                DFSsoliutions.Add(maze.Name, dfs.search(ism));
             });
-            dfsSolutionTask.Start();
+            DFSsolutionTask.Start();
             return maze;
         }
 
@@ -101,7 +101,7 @@ namespace ex1
         /// <param name="name">The name.</param>
         /// <param name="algorithm">The algorithm.</param>
         /// <returns></returns>
-        public MazeSolution SolveMaze(string name, int algorithm)
+        public MazeSolution solveMaze(string name, int algorithm)
         {           
             if (!mazes.ContainsKey(name))
             {
@@ -110,15 +110,13 @@ namespace ex1
             //BFS
             if (algorithm == 0)
             {                
-                MazeSolution bfsSolustion = new MazeSolution(bfsSoliutions[name].BackTrace,
-                    bfsSoliutions[name].EvaluatedNodes);
+                MazeSolution bfsSolustion = new MazeSolution(BFSsoliutions[name].getBackTrace(), BFSsoliutions[name].getEvaluatedNodes());
                 return bfsSolustion; 
             }
             //DFS
             else if (algorithm == 1)
             {
-                MazeSolution dfsSolustion = new MazeSolution(dfsSoliutions[name].BackTrace,
-                    dfsSoliutions[name].EvaluatedNodes);
+                MazeSolution dfsSolustion = new MazeSolution(DFSsoliutions[name].getBackTrace(), DFSsoliutions[name].getEvaluatedNodes());
                 return dfsSolustion;
             }
             return null; 
@@ -132,7 +130,7 @@ namespace ex1
         /// <param name="cols">The cols.</param>
         /// <param name="tcpClient">The TCP client.</param>
         /// <returns></returns>
-        public Maze StartGame(string name, int rows, int cols, TcpClient tcpClient)
+        public Maze startGame(string name, int rows, int cols, TcpClient tcpClient)
         {
             Maze maze;
             if (mazes.ContainsKey(name))
@@ -141,20 +139,20 @@ namespace ex1
             }
             else
             {
-                maze = GenerateMaze(name, rows, cols);
+                maze = generateMaze(name, rows, cols);
             }
             availableGames.Add(maze);
             waitingGames.Add(name, tcpClient);
             MultiPlayerGame multiPlayerGame = new MultiPlayerGame();
             multiPlayerGames.Add(name, multiPlayerGame);
-            multiPlayerGame.StartGame(tcpClient, maze);            
+            multiPlayerGame.startGame(tcpClient, maze);            
             return maze;
         }
         /// <summary>
         /// Gets the list of available games.
         /// </summary>
         /// <returns></returns>
-        public List<Maze> GetListOfAvailableGames()
+        public List<Maze> getListOfAvailableGames()
         {
             return availableGames;
         }
@@ -165,7 +163,7 @@ namespace ex1
         /// <param name="name">The name.</param>
         /// <param name="tcpClient">The TCP client.</param>
         /// <returns></returns>
-        public Maze Join(string name, TcpClient tcpClient)
+        public Maze join(string name, TcpClient tcpClient)
         {
             if (!waitingGames.ContainsKey(name)) { return null; }
             Maze maze = mazes[name];
@@ -182,11 +180,11 @@ namespace ex1
         /// <param name="move">The move.</param>
         /// <param name="client">The client.</param>
         /// <returns></returns>
-        public MultiPlayerGame Play(string move, TcpClient client)
+        public MultiPlayerGame play(string move, TcpClient client)
         {
             foreach (MultiPlayerGame m in multiPlayerGames.Values)
             {
-                if ((client == m.FirstPlayer) || (client == m.GetSecondPlayer())) { return m; }
+                if ((client == m.FirstPlayer) || (client == m.getSecondPlayer())) { return m; }
             }
             return null;
         }
@@ -195,18 +193,18 @@ namespace ex1
         /// </summary>
         /// <param name="client">The client.</param>
         /// <returns></returns>
-        public TcpClient Close (TcpClient client)
+        public TcpClient close (TcpClient client)
         {
             foreach (MultiPlayerGame m in multiPlayerGames.Values)
             {
                 if(client == m.FirstPlayer)
                 {
-                    multiPlayerGames.Remove(m.GetMazeName());
-                    return m.GetSecondPlayer();
+                    multiPlayerGames.Remove(m.getMazeName());
+                    return m.getSecondPlayer();
                 }
-                else if (client == m.GetSecondPlayer())
+                else if (client == m.getSecondPlayer())
                 {
-                    multiPlayerGames.Remove(m.GetMazeName());
+                    multiPlayerGames.Remove(m.getMazeName());
                     return m.FirstPlayer;
                 }
             }

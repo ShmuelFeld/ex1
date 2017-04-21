@@ -37,7 +37,7 @@ namespace ex1
             string name = args[0];
             int rows = int.Parse(args[1]);
             int cols = int.Parse(args[2]);
-            Maze maze = model.StartGame(name, rows, cols, client);
+            Maze maze = model.startGame(name, rows, cols, client);
             if(maze == null) { return "game name already exist, please enter a new one"; }
             return maze.ToJSON();
         }
@@ -47,7 +47,7 @@ namespace ex1
         /// </summary>
         /// <param name="v">The v.</param>
         /// <exception cref="System.NotImplementedException"></exception>
-        public void SetView(IView v)
+        public void setView(IView v)
         {
             throw new NotImplementedException();
         }

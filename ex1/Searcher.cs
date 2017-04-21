@@ -29,7 +29,7 @@ namespace ex1
         /// Gets the number of nodes evaluated.
         /// </summary>
         /// <returns></returns>
-        public virtual int GetNumberOfNodesEvaluated()
+        public virtual int getNumberOfNodesEvaluated()
         {
             return evaluatedNodes;
         }
@@ -38,7 +38,7 @@ namespace ex1
         /// </summary>
         /// <param name="isearchable">The isearchable.</param>
         /// <returns></returns>
-        public abstract Solution<T> Search(ISearchable<T> isearchable);
+        public abstract Solution<T> search(ISearchable<T> isearchable);
 
         /// <summary>
         /// Backs the trace.
@@ -46,16 +46,16 @@ namespace ex1
         /// <param name="init">The initialize.</param>
         /// <param name="goal">The goal.</param>
         /// <returns></returns>
-        public Solution<T> BackTrace(State<T> init, State<T> goal, int evaluatedNodes)
+        public Solution<T> backTrace(State<T> init, State<T> goal, int evaluatedNodes)
         {
             Solution<T> solution = new Solution<T>(evaluatedNodes);
             while (!goal.Equals(init))
             {
-                solution.Add(goal);
+                solution.add(goal);
                 goal = goal.CameFrom;
             }
             //add the initial state
-            solution.Add(goal);
+            solution.add(goal);
             return solution;
         }
 

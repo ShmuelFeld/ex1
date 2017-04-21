@@ -12,18 +12,18 @@ namespace ex1
     /// <typeparam name="T"></typeparam>
     public interface Isercher<T>
     {
-        // the Search method
+        // the search method
         /// <summary>
         /// Searches the specified isearchable.
         /// </summary>
         /// <param name="isearchable">The isearchable.</param>
         /// <returns></returns>
-        Solution<T> Search(ISearchable<T> isearchable);/// <summary>
+        Solution<T> search(ISearchable<T> isearchable);/// <summary>
         // get how many nodes were evaluated by the algorithm
         /// <summary>
         /// Gets the number of nodes evaluated.
         /// </summary>
         /// <returns></returns>
-        int GetNumberOfNodesEvaluated();
+        int getNumberOfNodesEvaluated();
     }
 }

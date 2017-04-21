@@ -23,6 +23,6 @@ namespace Server
         /// Sets the view.
         /// </summary>
         /// <param name="v">The v.</param>
-        void SetView(IView v);
+        void setView(IView v);
     }
 }
