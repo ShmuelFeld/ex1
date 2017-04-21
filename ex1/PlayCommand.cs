@@ -35,7 +35,7 @@ namespace ex1
         /// Sets the view.
         /// </summary>
         /// <param name="v">The v.</param>
-        public void setView(IView v) { view = v; }
+        public void SetView(IView v) { view = v; }
         /// <summary>
         /// Executes the specified arguments.
         /// </summary>
@@ -52,16 +52,16 @@ namespace ex1
             //else if (move == Direction.Left) { moveString = "left"; }
             //else { return "invalid move"; }
             if((move != "up") && (move != "down") && (move != "right") && (move != "left")) { return "invalid move"; }
-            MultiPlayerGame game = model.play(move, client);
+            MultiPlayerGame game = model.Play(move, client);
             TcpClient tcpOfOtherClient = null;
             if (game.FirstPlayer == client) {
-                tcpOfOtherClient = game.getSecondPlayer();
+                tcpOfOtherClient = game.GetSecondPlayer();
             } 
-            else if (game.getSecondPlayer() == client)
+            else if (game.GetSecondPlayer() == client)
             {
                 tcpOfOtherClient = game.FirstPlayer;
             }
-            view.sendToOtherClient(ToJSON(game.getMazeName(), move), tcpOfOtherClient);
+            view.SendToOtherClient(ToJSON(game.GetMazeName(), move), tcpOfOtherClient);
             return "other player has been notified";
         }
         /// <summary>

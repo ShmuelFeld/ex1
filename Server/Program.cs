@@ -20,7 +20,7 @@ namespace Server
         {
             Server ser = new Server();
             IController controller = new Controller();
-            ser.setController(controller);
+            ser.SetController(controller);
             ser.StartToListen();
         }
     }

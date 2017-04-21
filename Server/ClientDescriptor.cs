@@ -44,20 +44,20 @@ namespace Server
         {
             this.tcp = tc;
             controller = cntrlr;
-            controller.setView(this);
+            controller.SetView(this);
             this.endOfCommunication = false;
             commandsToClose = new List<string>();
-            startListening();
+            StartListening();
         }
         /// <summary>
         /// Adds the command to close.
         /// </summary>
         /// <param name="command">The command.</param>
-        public void addCommandToClose(string command) { commandsToClose.Add(command); }
+        public void AddCommandToClose(string command) { commandsToClose.Add(command); }
         /// <summary>
         /// Starts the listening.
         /// </summary>
-        public void startListening()
+        public void StartListening()
         {
             this.task = new Task(() =>{
                 using (NetworkStream stream = tcp.GetStream())
@@ -95,7 +95,7 @@ namespace Server
         /// <summary>
         /// Closes the client.
         /// </summary>
-        public void closeClient()
+        public void CloseClient()
         {
             NetworkStream stream = tcp.GetStream();
             StreamWriter writer = new StreamWriter(stream);
@@ -113,7 +113,7 @@ namespace Server
         /// </summary>
         /// <param name="data">The data.</param>
         /// <param name="otherClient">The other client.</param>
-        public void sendToOtherClient(string data, TcpClient otherClient)
+        public void SendToOtherClient(string data, TcpClient otherClient)
         {
             NetworkStream stream = otherClient.GetStream();
             StreamWriter writer = new StreamWriter(stream);
@@ -129,22 +129,30 @@ namespace Server
         /// Gets the task.
         /// </summary>
         /// <returns></returns>
-        public Task getTask()
+        public Task Task
         {
-            return this.task;
+            get
+            {
+                return this.task;
+            }
         }
+
         /// <summary>
         /// Gets the TCP client.
         /// </summary>
         /// <returns></returns>
-        public TcpClient getTcpClient()
+        public TcpClient TcpClient
         {
-            return this.tcp;
+            get
+            {
+                return this.tcp;
+            }
         }
+
         /// <summary>
         /// Sets the close.
         /// </summary>
-        public void setClose()
+        public void SetClose()
         {
             this.endOfCommunication = true;
         }

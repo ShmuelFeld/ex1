@@ -35,7 +35,7 @@ namespace ex1
         /// <returns></returns>
         public string Execute(string[] args, TcpClient client)
         {
-            List<Maze> availableGamesList = model.getListOfAvailableGames();
+            List<Maze> availableGamesList = model.GetListOfAvailableGames();
             return ToJSON(availableGamesList);
         }
 
@@ -44,7 +44,7 @@ namespace ex1
         /// </summary>
         /// <param name="v">The v.</param>
         /// <exception cref="System.NotImplementedException"></exception>
-        public void setView(IView v)
+        public void SetView(IView v)
         {
             throw new NotImplementedException();
         }

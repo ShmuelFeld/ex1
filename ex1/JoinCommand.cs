@@ -35,7 +35,7 @@ namespace ex1
         public string Execute(string[] args, TcpClient client)
         {
             string name = args[0];
-            Maze joinedMaze = model.join(name, client);
+            Maze joinedMaze = model.Join(name, client);
             if (joinedMaze == null)
             {
                 return "maze isn't in join list";
@@ -48,7 +48,7 @@ namespace ex1
         /// </summary>
         /// <param name="v">The v.</param>
         /// <exception cref="System.NotImplementedException"></exception>
-        public void setView(IView v)
+        public void SetView(IView v)
         {
             throw new NotImplementedException();
         }

@@ -46,7 +46,7 @@ namespace Server
         /// Sets the controller.
         /// </summary>
         /// <param name="cntrl">The CNTRL.</param>
-        public void setController(IController cntrl)
+        public void SetController(IController cntrl)
         {
             controller = cntrl;
         }
@@ -62,7 +62,7 @@ namespace Server
                     if (cli != null)
                     {
                         Console.WriteLine("Waiting for client connections...");
-                        this.clientPool.addClient(cli, this);
+                        this.clientPool.AddClient(cli, this);
                         Console.WriteLine("new client handler added");
                         cli = null;
                     }

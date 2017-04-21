@@ -26,13 +26,13 @@ namespace ex1
             backTrace = new Stack<State<T>>();
             this.evaluatedNodes = evaluatedNodes;
         }
-        // a property of backTrace
+        // a property of BackTrace
         // public Stack<State<T>> BackTrace { get; }
         /// <summary>
         /// Adds the specified s.
         /// </summary>
         /// <param name="s">The s.</param>
-        public void add(State<T> s)
+        public void Add(State<T> s)
         {
             backTrace.Push(s);
         }
@@ -40,7 +40,7 @@ namespace ex1
         /// Numbers the of states.
         /// </summary>
         /// <returns></returns>
-        public int numOfStates()
+        public int NumOfStates()
         {
             return backTrace.Count();
         }
@@ -48,7 +48,18 @@ namespace ex1
         /// Gets the back trace.
         /// </summary>
         /// <returns></returns>
-        public Stack<State<T>> getBackTrace() { return backTrace; }
-        public int getEvaluatedNodes() { return this.evaluatedNodes; }
+        public Stack<State<T>> BackTrace
+        {
+            get
+            { return backTrace; }
+        }
+
+        public int EvaluatedNodes
+        {
+            get
+            {
+                return evaluatedNodes;
+            }
+        }
     }
 }

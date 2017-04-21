@@ -41,12 +41,12 @@ namespace Server
         /// </summary>
         /// <param name="client">The client.</param>
         /// <param name="ser">The ser.</param>
-        public void addClient(TcpClient client, Server ser)
+        public void AddClient(TcpClient client, Server ser)
         {
             ClientDescriptor cli = new ClientDescriptor(client, controller);
-            cli.addCommandToClose("generate");
-            cli.addCommandToClose("solve");
-            cli.addCommandToClose("close");
+            cli.AddCommandToClose("generate");
+            cli.AddCommandToClose("solve");
+            cli.AddCommandToClose("close");
             this.listOfClients.Add(cli);
           //  cli.addObserver(ser);
 
@@ -54,24 +54,24 @@ namespace Server
         /// <summary>
         /// Closes the communication.
         /// </summary>
-        public void closeCommunication()
+        public void CloseCommunication()
         {
             foreach (ClientDescriptor item in this.listOfClients)
             {
-                item.setClose();
+                item.SetClose();
             }
         }
         /// <summary>
         /// Closes the communication.
         /// </summary>
         /// <param name="client">The client.</param>
-        public void closeCommunication(TcpClient client)
+        public void CloseCommunication(TcpClient client)
         {
             foreach (ClientDescriptor item in this.listOfClients)
             {
-                if (item.getTcpClient().Equals(client))
+                if (item.TcpClient.Equals(client))
                 {
-                    item.setClose();
+                    item.SetClose();
                 }
             }
         }

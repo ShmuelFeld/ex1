@@ -23,6 +23,6 @@ namespace ex1
         /// Sets the view.
         /// </summary>
         /// <param name="v">The v.</param>
-        void setView(IView v);
+        void SetView(IView v);
     }
 }

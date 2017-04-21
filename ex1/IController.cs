@@ -16,18 +16,18 @@ namespace ex1
         /// Sets the model.
         /// </summary>
         /// <param name="model">The model.</param>
-        void setModel(IModel model);
+        void SetModel(IModel model);
         /// <summary>
         /// Sets the view.
         /// </summary>
         /// <param name="view">The view.</param>
-        void setView(IView view);
+        void SetView(IView view);
         /// <summary>
         /// Adds the command.
         /// </summary>
         /// <param name="s">The s.</param>
         /// <param name="command">The command.</param>
-        void addCommand(string s, ICommand command);
+        void AddCommand(string s, ICommand command);
         /// <summary>
         /// Executes the command.
         /// </summary>

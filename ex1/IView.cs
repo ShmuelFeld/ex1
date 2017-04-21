@@ -17,6 +17,6 @@ namespace ex1
         /// </summary>
         /// <param name="data">The data.</param>
         /// <param name="otherClient">The other client.</param>
-        void sendToOtherClient(string data, TcpClient otherClient);
+        void SendToOtherClient(string data, TcpClient otherClient);
     }
 }

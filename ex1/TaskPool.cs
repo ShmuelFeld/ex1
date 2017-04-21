@@ -26,17 +26,17 @@ namespace ex1
         {
             tasks = new List<Task>();
             stop = false;
-            doTasks();
+            DoTasks();
         }
         /// <summary>
         /// Adds the task.
         /// </summary>
         /// <param name="t">The t.</param>
-        public void addTask(Task t) { tasks.Add(t); }
+        public void AddTask(Task t) { tasks.Add(t); }
         /// <summary>
         /// Does the tasks.
         /// </summary>
-        public void doTasks()
+        public void DoTasks()
         {
             while (!stop)
             {
@@ -51,7 +51,7 @@ namespace ex1
         /// <summary>
         /// Terminates this instance.
         /// </summary>
-        public void terminate()
+        public void Terminate()
         {
             stop = true;
         }

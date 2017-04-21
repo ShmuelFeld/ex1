@@ -41,31 +41,31 @@ namespace ex1
         /// </summary>
         /// <param name="s">The s.</param>
         /// <returns></returns>
-        public Dictionary<State<Position>, double> getAllPossibleStates(State<Position> s)
+        public Dictionary<State<Position>, double> GetAllPossibleStates(State<Position> s)
         {
             int col = s.Instance.Col;
             int row = s.Instance.Row;
             Dictionary<State<Position>, double> neighbors = new Dictionary<State<Position>, double>();
             Position left = new Position(row, col - 1);
-            if (isValid(left))
+            if (IsValid(left))
             {
                 this.numberOfNodesEvaluated++;
                 neighbors.Add(new State<Position>(left), 1);
             }
             Position up = new Position(row - 1, col);
-            if (isValid(up))
+            if (IsValid(up))
             {
                 this.numberOfNodesEvaluated++;
                 neighbors.Add(new State<Position>(up), 1);
             }
             Position right = new Position(row, col + 1);
-            if (isValid(right))
+            if (IsValid(right))
             {
                 this.numberOfNodesEvaluated++;
                 neighbors.Add(new State<Position>(right), 1);
             }
             Position down = new Position(row + 1, col);
-            if (isValid(down))
+            if (IsValid(down))
             {
                 this.numberOfNodesEvaluated++;
                 neighbors.Add(new State<Position>(down), 1);
@@ -79,7 +79,7 @@ namespace ex1
         /// <returns>
         ///   <c>true</c> if the specified p is valid; otherwise, <c>false</c>.
         /// </returns>
-        private bool isValid(Position p)
+        private bool IsValid(Position p)
         {
             if (p.Col >= this.maze.Cols || p.Col < 0) { return false; }
             if (p.Row >= this.maze.Rows || p.Row < 0) { return false; }
@@ -90,7 +90,7 @@ namespace ex1
         /// Gets the state of the goal.
         /// </summary>
         /// <returns></returns>
-        State<Position> ISearchable<Position>.getGoalState()
+        State<Position> ISearchable<Position>.GetGoalState()
         {
             return new State<Position>(this.goalPosition);
         }
@@ -99,11 +99,11 @@ namespace ex1
         /// Gets the initial state.
         /// </summary>
         /// <returns></returns>
-        State<Position> ISearchable<Position>.getInitialState()
+        State<Position> ISearchable<Position>.GetInitialState()
         {
             return new State<Position>(this.initialPosition);
         }
-        public int getEvauatedNodes()
+        public int GetEvauatedNodes()
         {
             return this.numberOfNodesEvaluated;
         }

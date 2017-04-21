@@ -37,8 +37,8 @@ namespace ex1
         /// <returns></returns>
         public string Execute(string[] args, TcpClient client)
         {
-            TcpClient otherClient = model.close(client);
-            view.sendToOtherClient("close your server", otherClient);
+            TcpClient otherClient = model.Close(client);
+            view.SendToOtherClient("close your server", otherClient);
             return "close";
         }
 
@@ -46,6 +46,6 @@ namespace ex1
         /// Sets the view.
         /// </summary>
         /// <param name="v">The v.</param>
-        public void setView(IView v) { view = v; }
+        public void SetView(IView v) { view = v; }
     }
 }

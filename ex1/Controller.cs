@@ -30,16 +30,16 @@ namespace ex1
         /// Sets the view.
         /// </summary>
         /// <param name="view">The view.</param>
-        public void setView(IView view) {
+        public void SetView(IView view) {
             this.view = view;
-            commands["play"].setView(view);
-            commands["close"].setView(view);
+            commands["play"].SetView(view);
+            commands["close"].SetView(view);
         }
         /// <summary>
         /// Sets the model.
         /// </summary>
         /// <param name="model">The model.</param>
-        public void setModel(IModel model) { this.model = model; }
+        public void SetModel(IModel model) { this.model = model; }
         /// <summary>
         /// Initializes a new instance of the <see cref="Controller"/> class.
         /// </summary>
@@ -47,20 +47,20 @@ namespace ex1
         {
             model = new Model(this);
             commands = new Dictionary<string, ICommand>();
-            addCommand("generate", new GenerateMazeCommand(model));
-            addCommand("list", new ListCommand(model));
-            addCommand("solve", new SolveGameCommand(model));
-            addCommand("start", new StartGameCommand(model));
-            addCommand("join", new JoinCommand(model));
-            addCommand("play", new PlayCommand(model));
-            addCommand("close", new CloseCommand(model));
+            AddCommand("generate", new GenerateMazeCommand(model));
+            AddCommand("list", new ListCommand(model));
+            AddCommand("solve", new SolveGameCommand(model));
+            AddCommand("start", new StartGameCommand(model));
+            AddCommand("join", new JoinCommand(model));
+            AddCommand("play", new PlayCommand(model));
+            AddCommand("close", new CloseCommand(model));
         }
         /// <summary>
         /// Adds the command.
         /// </summary>
         /// <param name="s">The s.</param>
         /// <param name="command">The command.</param>
-        public void addCommand(string s, ICommand command)
+        public void AddCommand(string s, ICommand command)
         {
             commands.Add(s, command);
         }

@@ -37,7 +37,7 @@ namespace ex1
         {
             string name = args[0];
             int algorithm = int.Parse(args[1]);
-            MazeSolution solution = model.solveMaze(name, algorithm);
+            MazeSolution solution = model.SolveMaze(name, algorithm);
             if(solution == null) { return "maze isn't in solve list"; }
             return solution.ToJSON(name);
         }
@@ -47,7 +47,7 @@ namespace ex1
         /// </summary>
         /// <param name="v">The v.</param>
         /// <exception cref="System.NotImplementedException"></exception>
-        public void setView(IView v)
+        public void SetView(IView v)
         {
             throw new NotImplementedException();
         }

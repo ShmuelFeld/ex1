@@ -15,11 +15,11 @@ namespace Server
         /// Adds the observer.
         /// </summary>
         /// <param name="observer">The observer.</param>
-        void addObserver(IObserver observer);
+        void AddObserver(IObserver observer);
         /// <summary>
         /// Notifies the observers.
         /// </summary>
         /// <param name="str">The string.</param>
-        void notifyObservers(string str);
+        void NotifyObservers(string str);
     }
 }

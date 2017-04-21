@@ -29,10 +29,10 @@ namespace ex1
         /// </summary>
         /// <param name="isearchable">The isearchable.</param>
         /// <returns></returns>
-        public override Solution<T> search(ISearchable<T> isearchable)
+        public override Solution<T> Search(ISearchable<T> isearchable)
         {
             HashSet<State<T>> visited = new HashSet<State<T>>();
-            stack.Add(isearchable.getInitialState());
+            stack.Add(isearchable.GetInitialState());
            // visited.Add(isearchable.getInitialState());
             while (stack.Count() != 0)
             {
@@ -41,14 +41,14 @@ namespace ex1
                 if (!visited.Contains(state))
                 {
                     visited.Add(state);
-                    Dictionary<State<T>, double> succerssors = isearchable.getAllPossibleStates(state);
+                    Dictionary<State<T>, double> succerssors = isearchable.GetAllPossibleStates(state);
                     foreach (KeyValuePair<State<T>, double> s in succerssors)
                     {
                         stack.Add(s.Key);
                         s.Key.CameFrom = state;
-                        if(s.Key.Equals(isearchable.getGoalState()))
+                        if(s.Key.Equals(isearchable.GetGoalState()))
                         {
-                            return backTrace(isearchable.getInitialState(), s.Key, isearchable.getEvauatedNodes());
+                            return BackTrace(isearchable.GetInitialState(), s.Key, isearchable.GetEvauatedNodes());
                         }
                     }
                 }

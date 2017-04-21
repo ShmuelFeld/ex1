@@ -24,10 +24,10 @@ namespace ex1
             Console.WriteLine(maze.ToString());
             IsearchableMaze ism = new IsearchableMaze(maze);
             BFS<Position> bfs = new BFS<Position>();
-            bfs.search(ism).numOfStates();
+            bfs.Search(ism).NumOfStates();
             DFS<Position> dfs = new DFS<Position>();
             IsearchableMaze ism2 = new IsearchableMaze(maze);
-            dfs.search(ism2).numOfStates();
+            dfs.Search(ism2).NumOfStates();
         }
     }
 }

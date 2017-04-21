@@ -16,6 +16,6 @@ namespace Server
         /// </summary>
         /// <param name="command">The command.</param>
         /// <param name="observable">The observable.</param>
-        void newMessageArrived(string command, IObservable observable);
+        void NewMessageArrived(string command, IObservable observable);
     }
 }
