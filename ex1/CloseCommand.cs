@@ -1,5 +1,4 @@
-﻿using MazeLib;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
@@ -12,17 +11,21 @@ namespace ex1
     /// 
     /// </summary>
     /// <seealso cref="ex1.ICommand" />
-    public class StartGameCommand : ICommand
+    class CloseCommand : ICommand
     {
         /// <summary>
         /// The model
         /// </summary>
         private IModel model;
         /// <summary>
-        /// Initializes a new instance of the <see cref="StartGameCommand"/> class.
+        /// The view
+        /// </summary>
+        private IView view;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CloseCommand"/> class.
         /// </summary>
         /// <param name="model">The model.</param>
-        public StartGameCommand(IModel model)
+        public CloseCommand (IModel model)
         {
             this.model = model;
         }
@@ -34,22 +37,15 @@ namespace ex1
         /// <returns></returns>
         public string Execute(string[] args, TcpClient client)
         {
-            string name = args[0];
-            int rows = int.Parse(args[1]);
-            int cols = int.Parse(args[2]);
-            Maze maze = model.startGame(name, rows, cols, client);
-            if(maze == null) { return "game name already exist, please enter a new one"; }
-            return maze.ToJSON();
+            TcpClient otherClient = model.close(client);
+            view.sendToOtherClient("close your server", otherClient);
+            return "close";
         }
 
         /// <summary>
         /// Sets the view.
         /// </summary>
         /// <param name="v">The v.</param>
-        /// <exception cref="System.NotImplementedException"></exception>
-        public void setView(IView v)
-        {
-            throw new NotImplementedException();
-        }
+        public void setView(IView v) { view = v; }
     }
 }

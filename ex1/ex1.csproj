@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BFS.cs" />
+    <Compile Include="CloseCommand.cs" />
     <Compile Include="Controller.cs" />
     <Compile Include="GenerateMazeCommand.cs" />
     <Compile Include="ICommand.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="ListCommand.cs" />
     <Compile Include="MazeSolution.cs" />
     <Compile Include="Model.cs" />
+    <Compile Include="MultiPlayerGame.cs" />
     <Compile Include="PlayCommand.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Searcher.cs" />

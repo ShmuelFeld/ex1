@@ -9,19 +9,54 @@ using System.Threading.Tasks;
 
 namespace Server
 {
-    class ClientDescriptor: IObservable
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <seealso cref="ex1.IView" />
+    class ClientDescriptor : IView
     {
+        /// <summary>
+        /// The TCP
+        /// </summary>
         private TcpClient tcp;
+        /// <summary>
+        /// The task
+        /// </summary>
         private Task task;
+        /// <summary>
+        /// The end of communication
+        /// </summary>
         private bool endOfCommunication;
-        private List<IObserver> observers;
-        public ClientDescriptor(TcpClient tc)
+        /// <summary>
+        /// The controller
+        /// </summary>
+        private IController controller;
+        /// <summary>
+        /// The commands to close
+        /// </summary>
+        private List<string> commandsToClose;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ClientDescriptor"/> class.
+        /// </summary>
+        /// <param name="tc">The tc.</param>
+        /// <param name="cntrlr">The CNTRLR.</param>
+        public ClientDescriptor(TcpClient tc, IController cntrlr)
         {
             this.tcp = tc;
+            controller = cntrlr;
+            controller.setView(this);
             this.endOfCommunication = false;
-            this.observers = new List<IObserver>();
+            commandsToClose = new List<string>();
             startListening();
         }
+        /// <summary>
+        /// Adds the command to close.
+        /// </summary>
+        /// <param name="command">The command.</param>
+        public void addCommandToClose(string command) { commandsToClose.Add(command); }
+        /// <summary>
+        /// Starts the listening.
+        /// </summary>
         public void startListening()
         {
             this.task = new Task(() =>{
@@ -29,96 +64,90 @@ namespace Server
                 using (StreamReader reader = new StreamReader(stream))
                 using (StreamWriter writer = new StreamWriter(stream))
                 {
-                    while (true)
+                    while (!endOfCommunication) 
                     {
                         string commandLine = reader.ReadLine();
-                        //notifyObservers(commandLine);
-                        IController c = new Controller();
-                        string result = c.ExecuteCommand(commandLine, tcp);
+                        if(commandLine == "close your server")
+                        {
+                            endOfCommunication = true;
+                            break;
+                        }
+                        foreach (string command in commandsToClose)
+                        {
+                            if (commandLine.Contains(command))
+                            {
+                                endOfCommunication = true;
+                            }
+                        }
+                        string result = controller.ExecuteCommand(commandLine, tcp);
                         Console.WriteLine(result);
                         result += '\n';
                         result += '@';
                         writer.WriteLine(result);
-                       // writer.Flush();
                         writer.Flush();
-                        //Console.WriteLine(commandLine);
-                        //string result = controller.executeCommand(commandLine, client);
-                        //Console.WriteLine("the result we wanna send: {0}", result);
-                        //result += '\n';
-                        //result += '@';
-                        //writer.WriteLine(result);
-                        //writer.Flush();
+                        if (result.Contains("close")) { endOfCommunication = true; }
                     }
+                    Console.WriteLine("client handler done");
                 }
-                //Byte[] bytes = new Byte[1024];
-                //NetworkStream stream = this.tcp.GetStream();
-                //int i;
-                //while (!this.endOfCommunication)
-                //{
-                //    if ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
-                //    {
-                //        string data = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
-                //        Console.WriteLine("Received: {0}", data);
-                //        stream.Flush();
-
-                //        //bytes = System.Text.Encoding.ASCII.GetBytes(data);
-                //        //stream.Write(bytes, 0, bytes.Length);
-                //        //stream.Flush();
-                //        notifyObservers(data);
-
-                //    }
             });
             task.Start();
         }
+        /// <summary>
+        /// Closes the client.
+        /// </summary>
+        public void closeClient()
+        {
+            NetworkStream stream = tcp.GetStream();
+            StreamWriter writer = new StreamWriter(stream);
+            {
+                string data = "";
+                Console.WriteLine("closing client");
+                data += '\n';
+                data += '@';
+                writer.WriteLine(data);
+                writer.Flush();
+            }
+        }
+        /// <summary>
+        /// Sends to other client.
+        /// </summary>
+        /// <param name="data">The data.</param>
+        /// <param name="otherClient">The other client.</param>
+        public void sendToOtherClient(string data, TcpClient otherClient)
+        {
+            NetworkStream stream = otherClient.GetStream();
+            StreamWriter writer = new StreamWriter(stream);
+            {
+                    Console.WriteLine(data);
+                    data += '\n';
+                    data += '@';
+                    writer.WriteLine(data);
+                    writer.Flush();
+            }
+        }
+        /// <summary>
+        /// Gets the task.
+        /// </summary>
+        /// <returns></returns>
         public Task getTask()
         {
             return this.task;
         }
+        /// <summary>
+        /// Gets the TCP client.
+        /// </summary>
+        /// <returns></returns>
         public TcpClient getTcpClient()
         {
             return this.tcp;
         }
+        /// <summary>
+        /// Sets the close.
+        /// </summary>
         public void setClose()
         {
             this.endOfCommunication = true;
         }
 
-        public void addObserver(IObserver observer)
-        {
-            this.observers.Add(observer);
-        }
-         
-        public void notifyObservers(string str)
-        {
-            foreach (IObserver item in this.observers)
-            {
-                item.newMessageArrived(str, this);
-            }
-        }
-
-        public void sendToClient(string data)
-        {
-            using (NetworkStream stream = tcp.GetStream())
-            using (StreamReader reader = new StreamReader(stream))
-            using (StreamWriter writer = new StreamWriter(stream))
-            {
-               // while (!this.endOfCommunication)
-               // {
-                    data += '\n';
-                    data += '@';
-                    writer.WriteLine(data);
-                    writer.Flush();
-               // }
-            }
-            //Byte[] bytes = new Byte[1024];
-            //using (NetworkStream stream = tcp.GetStream())
-            //using (BinaryReader reader = new BinaryReader(stream))
-            //using (BinaryWriter writer = new BinaryWriter(stream))            //{
-            //    bytes = System.Text.Encoding.ASCII.GetBytes(data);
-            //    writer.Write(bytes, 0, bytes.Length);
-            //    stream.Flush() ;
-            //    writer.Flush();
-            //}
-        }
     }
 }

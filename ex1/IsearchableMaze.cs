@@ -7,17 +7,39 @@ using MazeGeneratorLib;
 using MazeLib;
 namespace ex1
 {
-    class IsearchableMaze: ISearchable<Position>
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <seealso cref="ex1.ISearchable{MazeLib.Position}" />
+    class IsearchableMaze : ISearchable<Position>
     {
+        /// <summary>
+        /// The maze
+        /// </summary>
         private Maze maze;
+        /// <summary>
+        /// The initial position
+        /// </summary>
         private Position initialPosition;
+        /// <summary>
+        /// The goal position
+        /// </summary>
         private Position goalPosition;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IsearchableMaze"/> class.
+        /// </summary>
+        /// <param name="maze">The maze.</param>
         public IsearchableMaze(Maze maze)
         {
             this.maze = maze;
             this.initialPosition = maze.InitialPos;
             this.goalPosition = maze.GoalPos;
         }
+        /// <summary>
+        /// Gets all possible states.
+        /// </summary>
+        /// <param name="s">The s.</param>
+        /// <returns></returns>
         public Dictionary<State<Position>, double> getAllPossibleStates(State<Position> s)
         {
             int col = s.Instance.Col;
@@ -45,6 +67,13 @@ namespace ex1
             }
             return neighbors;
         }
+        /// <summary>
+        /// Determines whether the specified p is valid.
+        /// </summary>
+        /// <param name="p">The p.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified p is valid; otherwise, <c>false</c>.
+        /// </returns>
         private bool isValid(Position p)
         {
             if (p.Col >= this.maze.Cols || p.Col < 0) { return false; }
@@ -52,11 +81,19 @@ namespace ex1
             if (maze[p.Row,p.Col] == CellType.Wall) { return false; }
             return true;
         }
+        /// <summary>
+        /// Gets the state of the goal.
+        /// </summary>
+        /// <returns></returns>
         State<Position> ISearchable<Position>.getGoalState()
         {
             return new State<Position>(this.goalPosition);
         }
 
+        /// <summary>
+        /// Gets the initial state.
+        /// </summary>
+        /// <returns></returns>
         State<Position> ISearchable<Position>.getInitialState()
         {
             return new State<Position>(this.initialPosition);

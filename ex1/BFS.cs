@@ -6,9 +6,22 @@ using System.Threading.Tasks;
 
 namespace ex1
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <seealso cref="ex1.PrioritySearcher{T}" />
     public class BFS<T> : PrioritySearcher<T>
     {
+        /// <summary>
+        /// The closed
+        /// </summary>
         private HashSet<State<T>> closed = new HashSet<State<T>>();
+        /// <summary>
+        /// Searches the specified isearchable.
+        /// </summary>
+        /// <param name="isearchable">The isearchable.</param>
+        /// <returns></returns>
         public override Solution<T> search(ISearchable<T> isearchable)
         {
             addToOpenList(isearchable.getInitialState()); // inherited from Searcher
@@ -45,6 +58,11 @@ namespace ex1
             return null;
         }
 
+        /// <summary>
+        /// Backs the trace.
+        /// </summary>
+        /// <param name="isearchable">The isearchable.</param>
+        /// <returns></returns>
         private Solution<T> backTrace(ISearchable<T> isearchable)
         {
             Solution<T> solution = new Solution<T>();
