@@ -40,8 +40,8 @@ namespace Server
         {
             Task listen = new Task(() =>
             {
-                TcpClient cli = listener.AcceptTcpClient();
-                while (cli != null) {
+                while (true) {
+                    TcpClient cli = listener.AcceptTcpClient();
                     if (cli != null)
                     {
                         Console.WriteLine("Waiting for client connections...");
