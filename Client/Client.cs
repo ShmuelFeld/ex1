@@ -36,7 +36,6 @@ namespace Client
             ep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 8000);
             client = new TcpClient();
             client.Connect(ep);
-            Console.WriteLine("I'm connected");
             this.endOfCommunication = false;
         }
 

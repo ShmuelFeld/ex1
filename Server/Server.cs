@@ -61,9 +61,7 @@ namespace Server
                 TcpClient cli = listener.AcceptTcpClient();
                     if (cli != null)
                     {
-                        Console.WriteLine("Waiting for client connections...");
                         this.clientPool.AddClient(cli, this);
-                        Console.WriteLine("new client handler added");
                         cli = null;
                     }
             }

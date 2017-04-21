@@ -87,7 +87,6 @@ namespace Server
                         writer.Flush();
                         if (result.Contains("close")) { endOfCommunication = true; }
                     }
-                    Console.WriteLine("client handler done");
                 }
             });
             task.Start();
