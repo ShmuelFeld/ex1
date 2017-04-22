@@ -29,7 +29,7 @@ namespace ex1
         /// Pops the open list.
         /// </summary>
         /// <returns></returns>
-        protected State<T> PopOpenList()
+        protected State<T> popOpenList()
         {
             evaluatedNodes++;
             return open.Dequeue();
@@ -50,12 +50,12 @@ namespace ex1
         //{
         //    return evaluatedNodes;
         //}
-        //public abstract Solution<T> Search(ISearchable<T> isearchable);
+        //public abstract Solution<T> search(ISearchable<T> isearchable);
         /// <summary>
         /// Adds to open list.
         /// </summary>
         /// <param name="s">The s.</param>
-        public void AddToOpenList(State<T> s)
+        public void addToOpenList(State<T> s)
         {
             open.Enqueue(s, (float)s.CostOfState);
         }

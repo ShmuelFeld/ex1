@@ -1,4 +1,5 @@
 ﻿using MazeLib;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,17 +13,17 @@ namespace ex1
     /// 
     /// </summary>
     /// <seealso cref="ex1.ICommand" />
-    public class JoinCommand : ICommand
+    public class ListCommand : ICommand
     {
         /// <summary>
         /// The model
         /// </summary>
         private IModel model;
         /// <summary>
-        /// Initializes a new instance of the <see cref="JoinCommand"/> class.
+        /// Initializes a new instance of the <see cref="ListCommand"/> class.
         /// </summary>
         /// <param name="model">The model.</param>
-        public JoinCommand(IModel model)
+        public ListCommand(IModel model)
         {
             this.model = model;
         }
@@ -34,13 +35,8 @@ namespace ex1
         /// <returns></returns>
         public string Execute(string[] args, TcpClient client)
         {
-            string name = args[0];
-            Maze joinedMaze = model.Join(name, client);
-            if (joinedMaze == null)
-            {
-                return "maze isn't in join list";
-            }
-            return joinedMaze.ToJSON();
+            List<Maze> availableGamesList = model.getListOfAvailableGames();
+            return ToJSON(availableGamesList);
         }
 
         /// <summary>
@@ -48,9 +44,24 @@ namespace ex1
         /// </summary>
         /// <param name="v">The v.</param>
         /// <exception cref="System.NotImplementedException"></exception>
-        public void SetView(IView v)
+        public void setView(IView v)
         {
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// To the json.
+        /// </summary>
+        /// <param name="list">The list.</param>
+        /// <returns></returns>
+        private string ToJSON(List<Maze> list)
+        {
+            JArray listArr = new JArray();
+            foreach (Maze m in list)
+            {
+                listArr.Add(m.Name);
+            }
+            return listArr.ToString();
         }
     }
 }

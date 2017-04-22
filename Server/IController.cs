@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Server;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
@@ -16,18 +17,18 @@ namespace ex1
         /// Sets the model.
         /// </summary>
         /// <param name="model">The model.</param>
-        void SetModel(IModel model);
+        void setModel(IModel model);
         /// <summary>
         /// Sets the view.
         /// </summary>
         /// <param name="view">The view.</param>
-        void SetView(IView view);
+        void setView(IView view);
         /// <summary>
         /// Adds the command.
         /// </summary>
         /// <param name="s">The s.</param>
         /// <param name="command">The command.</param>
-        void AddCommand(string s, ICommand command);
+        void addCommand(string s, ICommand command);
         /// <summary>
         /// Executes the command.
         /// </summary>

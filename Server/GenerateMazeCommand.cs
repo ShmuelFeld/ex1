@@ -37,7 +37,7 @@ namespace ex1
             string name = args[0];
             int rows = int.Parse(args[1]);
             int cols = int.Parse(args[2]);
-            Maze maze = model.GenerateMaze(name, rows, cols);
+            Maze maze = model.generateMaze(name, rows, cols);
             return maze.ToJSON();
         }
 
@@ -46,7 +46,7 @@ namespace ex1
         /// </summary>
         /// <param name="v">The v.</param>
         /// <exception cref="System.NotImplementedException"></exception>
-        public void SetView(IView v)
+        public void setView(IView v)
         {
             throw new NotImplementedException();
         }

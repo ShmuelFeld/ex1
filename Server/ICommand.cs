@@ -5,7 +5,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ex1
+namespace Server
 {
     /// <summary>
     /// 
@@ -23,6 +23,6 @@ namespace ex1
         /// Sets the view.
         /// </summary>
         /// <param name="v">The v.</param>
-        void SetView(IView v);
+        void setView(IView v);
     }
 }

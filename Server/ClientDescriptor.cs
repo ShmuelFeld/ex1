@@ -44,20 +44,20 @@ namespace Server
         {
             this.tcp = tc;
             controller = cntrlr;
-            controller.SetView(this);
+            controller.setView(this);
             this.endOfCommunication = false;
             commandsToClose = new List<string>();
-            StartListening();
+            startListening();
         }
         /// <summary>
         /// Adds the command to close.
         /// </summary>
         /// <param name="command">The command.</param>
-        public void AddCommandToClose(string command) { commandsToClose.Add(command); }
+        public void addCommandToClose(string command) { commandsToClose.Add(command); }
         /// <summary>
         /// Starts the listening.
         /// </summary>
-        public void StartListening()
+        public void startListening()
         {
             this.task = new Task(() =>{
                 using (NetworkStream stream = tcp.GetStream())
@@ -87,7 +87,6 @@ namespace Server
                         writer.Flush();
                         if (result.Contains("close")) { endOfCommunication = true; }
                     }
-                    Console.WriteLine("client handler done");
                 }
             });
             task.Start();
@@ -95,7 +94,7 @@ namespace Server
         /// <summary>
         /// Closes the client.
         /// </summary>
-        public void CloseClient()
+        public void closeClient()
         {
             NetworkStream stream = tcp.GetStream();
             StreamWriter writer = new StreamWriter(stream);
@@ -113,7 +112,7 @@ namespace Server
         /// </summary>
         /// <param name="data">The data.</param>
         /// <param name="otherClient">The other client.</param>
-        public void SendToOtherClient(string data, TcpClient otherClient)
+        public void sendToOtherClient(string data, TcpClient otherClient)
         {
             NetworkStream stream = otherClient.GetStream();
             StreamWriter writer = new StreamWriter(stream);
@@ -129,30 +128,22 @@ namespace Server
         /// Gets the task.
         /// </summary>
         /// <returns></returns>
-        public Task Task
+        public Task getTask()
         {
-            get
-            {
-                return this.task;
-            }
+            return this.task;
         }
-
         /// <summary>
         /// Gets the TCP client.
         /// </summary>
         /// <returns></returns>
-        public TcpClient TcpClient
+        public TcpClient getTcpClient()
         {
-            get
-            {
-                return this.tcp;
-            }
+            return this.tcp;
         }
-
         /// <summary>
         /// Sets the close.
         /// </summary>
-        public void SetClose()
+        public void setClose()
         {
             this.endOfCommunication = true;
         }

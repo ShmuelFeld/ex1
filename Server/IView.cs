@@ -5,7 +5,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ex1
+namespace Server
 {
     /// <summary>
     /// 
@@ -17,6 +17,6 @@ namespace ex1
         /// </summary>
         /// <param name="data">The data.</param>
         /// <param name="otherClient">The other client.</param>
-        void SendToOtherClient(string data, TcpClient otherClient);
+        void sendToOtherClient(string data, TcpClient otherClient);
     }
 }

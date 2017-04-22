@@ -22,18 +22,18 @@ namespace ex1
         /// </summary>
         /// <param name="isearchable">The isearchable.</param>
         /// <returns></returns>
-        public override Solution<T> Search(ISearchable<T> isearchable)
+        public override Solution<T> search(ISearchable<T> isearchable)
         {
-            AddToOpenList(isearchable.GetInitialState()); // inherited from Searcher
+            addToOpenList(isearchable.getInitialState()); // inherited from Searcher
 
             while (OpenListSize > 0)
             {
-                State<T> n = PopOpenList(); // inherited from Searcher, removes the best state
+                State<T> n = popOpenList(); // inherited from Searcher, removes the best state
                 closed.Add(n);
-                if (n.Equals(isearchable.GetGoalState()))
-                    return BackTrace(isearchable.GetInitialState(), n, isearchable.GetEvauatedNodes()); // private method, back traces through the parents
+                if (n.Equals(isearchable.getGoalState()))
+                    return backTrace(isearchable.getInitialState(), n, isearchable.getEvauatedNodes()); // private method, back traces through the parents
                                                    // calling the delegated method, returns a list of states with n as a parent
-                Dictionary<State<T>, double> succerssors = isearchable.GetAllPossibleStates(n);
+                Dictionary<State<T>, double> succerssors = isearchable.getAllPossibleStates(n);
                 foreach (KeyValuePair<State<T>, double> s in succerssors)
                 {
                     if (!(closed.Contains(s.Key)) && !(open.Contains(s.Key)))
@@ -41,7 +41,7 @@ namespace ex1
                         s.Key.CameFrom = n;
                         //s.CameFrom = n; // already done by getSuccessors
                         s.Key.CostOfState = s.Value;
-                        AddToOpenList(s.Key);
+                        addToOpenList(s.Key);
                     }
                     else if (open.Contains(s.Key))
                     {
@@ -63,17 +63,17 @@ namespace ex1
         /// </summary>
         /// <param name="isearchable">The isearchable.</param>
         /// <returns></returns>
-        private Solution<T> BackTrace(ISearchable<T> isearchable)
+        private Solution<T> backTrace(ISearchable<T> isearchable)
         {
-            Solution<T> solution = new Solution<T>(isearchable.GetEvauatedNodes());
-            State<T> state = isearchable.GetGoalState();
-            while (!state.Equals(isearchable.GetInitialState()))
+            Solution<T> solution = new Solution<T>(isearchable.getEvauatedNodes());
+            State<T> state = isearchable.getGoalState();
+            while (!state.Equals(isearchable.getInitialState()))
             {
-                solution.Add(state);
+                solution.add(state);
                 state = state.CameFrom;
             }
             //add the initial state
-            solution.Add(state);
+            solution.add(state);
             return solution;
         }
   }

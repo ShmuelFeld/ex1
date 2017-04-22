@@ -12,21 +12,20 @@ namespace ex1
     /// 
     /// </summary>
     /// <seealso cref="ex1.ICommand" />
-    public class SolveGameCommand : ICommand
+    public class StartGameCommand : ICommand
     {
         /// <summary>
         /// The model
         /// </summary>
         private IModel model;
         /// <summary>
-        /// Initializes a new instance of the <see cref="SolveGameCommand"/> class.
+        /// Initializes a new instance of the <see cref="StartGameCommand"/> class.
         /// </summary>
         /// <param name="model">The model.</param>
-        public SolveGameCommand(IModel model)
+        public StartGameCommand(IModel model)
         {
             this.model = model;
         }
-
         /// <summary>
         /// Executes the specified arguments.
         /// </summary>
@@ -36,10 +35,11 @@ namespace ex1
         public string Execute(string[] args, TcpClient client)
         {
             string name = args[0];
-            int algorithm = int.Parse(args[1]);
-            MazeSolution solution = model.SolveMaze(name, algorithm);
-            if(solution == null) { return "maze isn't in solve list"; }
-            return solution.ToJSON(name);
+            int rows = int.Parse(args[1]);
+            int cols = int.Parse(args[2]);
+            Maze maze = model.startGame(name, rows, cols, client);
+            if(maze == null) { return "game name already exist, please enter a new one"; }
+            return maze.ToJSON();
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace ex1
         /// </summary>
         /// <param name="v">The v.</param>
         /// <exception cref="System.NotImplementedException"></exception>
-        public void SetView(IView v)
+        public void setView(IView v)
         {
             throw new NotImplementedException();
         }
